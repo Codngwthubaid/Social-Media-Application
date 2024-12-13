@@ -12,8 +12,10 @@ app.use(express.urlencoded({ extended: true }))
 
 // Importing Routes 
 const postRouter = require("./routes/Post")
+const userRouter = require("./routes/User")
 // Using Route
 app.use("/api/v1", postRouter)
+app.use("/api/v1", userRouter)
 
 
 module.exports = app 
