@@ -29,8 +29,14 @@ exports.register = async (req, res) => {
         await user.save();
         console.log("User created successfully")
 
-        // Sending response to user
-        res.status(201).json({ success: true, user })
+        // Generating Token
+        const token = await user.generationToken()
+
+        // Token Options
+       let options = { expires: new Date(Date.now() + 30 * 24 * 60 * 60 * 1000), httpOnly: true, secure: true}
+
+        // Sending response
+        res.status(201).cookie("token", token, options).json({ success: true, user, token, messsage: "Login Successfully ..." })
 
 
     } catch (error) {
@@ -77,7 +83,7 @@ exports.login = async (req, res) => {
         const token = await user.generationToken()
 
         // Token Options
-        const options = { expires: new Date().now + 30 * 24 * 60 * 60 * 1000, httpOnly: true }
+       let options = { expires: new Date(Date.now() + 30 * 24 * 60 * 60 * 1000), httpOnly: true, secure: true }
 
         // Sending response
         res.status(200).cookie("token", token, options).json({ success: true, user, token })
