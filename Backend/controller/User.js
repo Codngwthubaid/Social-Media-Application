@@ -25,9 +25,8 @@ exports.register = async (req, res) => {
                 url: "sample_url"
             }
         })
-        await user.save(); // Save triggers full schema validation
-        console.log("User created successfully");
-
+        await user.save();
+        console.log("User created successfully")
         res.status(201).json({ success: true, user })
 
 
