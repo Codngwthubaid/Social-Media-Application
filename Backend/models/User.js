@@ -19,6 +19,7 @@ const userSchema = new mongoose.Schema({
     password: {
         type: String,
         required: [true, "Please enter a password... "],
+        minlength: [8, "Password must have 8 charaters "],
         validate: {
             validator: function (value) {
                 // Regular expression for password complexity
