@@ -76,9 +76,11 @@ exports.login = async (req, res) => {
         // Generating Token
         const token = await user.generationToken()
 
+        // Token Options
+        const options = { expires: new Date().now + 30 * 24 * 60 * 60 * 1000, httpOnly: true }
 
         // Sending response
-        res.status(200).cookie("token", token).json({ success: true, user, token })
+        res.status(200).cookie("token", token, options).json({ success: true, user, token })
 
     } catch (error) {
         res.status(500).json({ success: false, message: error.message })
