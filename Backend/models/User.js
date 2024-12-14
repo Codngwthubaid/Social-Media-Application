@@ -3,7 +3,7 @@ const mongoose = require("mongoose")
 const userSchema = new mongoose.Schema({
     name: {
         type: String,
-        require: [true, "Please enter a name... "]
+        required: [true, "Please enter a name... "]
     },
     avatar: {
         url: String,
@@ -11,13 +11,12 @@ const userSchema = new mongoose.Schema({
     },
     email: {
         type: String,
-        require: [true, "Please enter an email... "],
+        required: [true, "Please enter an email... "],
         unique: [true, "Email already exist... "]
     },
     password: {
         type: String,
-        require: [true, "Please enter a password... "],
-        minlength: [8, "Password must be at least 8 characters..."],
+        required: [true, "Please enter a password... "],
         validate: {
             validator: function (value) {
                 // Regular expression for password complexity
@@ -27,11 +26,6 @@ const userSchema = new mongoose.Schema({
                 "Password must include at least one uppercase letter, one lowercase letter, one number, and one special character.",
         },
         select: false
-        //(?=.*[a-z]): Ensures the password contains at least one lowercase letter.
-        // (?=.*[A-Z]): Ensures the password contains at least one uppercase letter.
-        // (?=.*\d): Ensures the password contains at least one digit.
-        // (?=.*[@$!%*?&]): Ensures the password contains at least one special character from the set @$!%*?&.
-        // [A-Za-z\d@$!%*?&]{8,}: Ensures the password has a minimum length of 8 characters and contains only valid characters.
     },
     posts: [
         {
@@ -52,6 +46,9 @@ const userSchema = new mongoose.Schema({
         }
     ]
 })
-
+userSchema.pre("save", function (next) {
+    console.log("Before saving:", this);
+    next();
+});
 
 module.exports = mongoose.model("User", userSchema)
