@@ -8,7 +8,7 @@ exports.createPost = async (req, res) => {
         const newPostData = {
             caption: req.body.caption,
             image: {
-                public_Id: "req.body.publi_Id",
+                public_Id: "req.body.public_Id",
                 url: "req.body.url"
             },
             owner: req.body.owner
