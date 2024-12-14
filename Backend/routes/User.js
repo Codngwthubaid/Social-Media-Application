@@ -1,9 +1,9 @@
 // API routes creation and using controller func's 
 const express = require("express");
-const { register } = require("../controller/User");
+const { register, login } = require("../controller/User");
 const router = express.Router()
 
 
 router.route("/register").post(register)
-
+router.route("/login").post(login)
 module.exports = router

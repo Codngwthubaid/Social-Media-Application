@@ -1,12 +1,11 @@
-// Here we creates Funtion which we used inside the routes folder
-
 const User = require("../models/User")
 
+// For Registration  
 exports.register = async (req, res) => {
     try {
         const { name, email, password } = req.body
         console.log(`User Details comes from body\n Name : ${name}\n Email : ${email}\n Password : ${password}`);
-        
+
 
         // Checking User is present orr not
         let user = await User.findOne({ email })
@@ -25,8 +24,12 @@ exports.register = async (req, res) => {
                 url: "sample_url"
             }
         })
+
+        // Saving User
         await user.save();
         console.log("User created successfully")
+
+        // Sending response to user
         res.status(201).json({ success: true, user })
 
 
@@ -38,10 +41,47 @@ exports.register = async (req, res) => {
                 message: `User validation failed: ${errors.join(", ")}`,
             });
         }
-
-        res.status(500).json({
-            success: false,
-            message: error.message
-        })
+        res.status(500).json({ success: false, message: error.messag })
     }
 }
+
+
+// For Login
+exports.login = async (req, res) => {
+    try {
+        const { email, password } = req.body
+        console.log(`User Details comes from body\nEmail : ${email}\n Password : ${password}`);
+        const user = await User.findOne({ email }).select("+password")
+
+        // Check User's presence
+        if (!user)
+            return res
+                .status(400)
+                .json({
+                    success: false,
+                    message: "User does not exist ..."
+                })
+
+        const isMatch = await user.matchPassword(password)
+        // Matching password
+        if (!isMatch)
+            return res
+                .status(400)
+                .json({
+                    success: false,
+                    message: "Incorrect Password ..."
+                })
+
+
+        // Generating Token
+        const token = await user.generationToken()
+
+
+        // Sending response
+        res.status(200).cookie("token", token).json({ success: true, user, token })
+
+    } catch (error) {
+        res.status(500).json({ success: false, message: error.message })
+    }
+}
+
