@@ -25,12 +25,47 @@ exports.createPost = async (req, res) => {
 
 
         // Give response to user
-        res.status(201).json({ success: true, Post : newPost })
+        res.status(201).json({ success: true, Post: newPost })
 
     } catch (error) {
         res.status(500).json({
             success: false,
             message: error.message
         })
+    }
+}
+
+
+
+exports.likeAndUnlikePost = async (req, res) => {
+    try {
+
+        // Finding Post
+        const post = await Post.findById(req.params.id)
+
+        // Check post present
+        if (!post) return res.status(500).json({ success: false, message: "post not found ..." })
+
+        // Condition for Like and Unlike
+        if (post.likes.includes(req.user._id)) {
+            // Getting index for postID
+            const index = post.likes.indexOf(req.user._id)
+            // Deleting that index 
+            post.likes.splice(index, 1)
+            // savr to DB
+            await post.save()
+
+            // response to the user
+            return res.status(200).json({ success: true, message: "Post Unliked" })
+        } else {
+            post.likes.push(req.user._id)
+            await post.save()
+
+            // response to the user
+            return res.status(200).json({ success: true, message: "Post Liked" })
+        }
+
+    } catch (error) {
+        return res.status(500).json({ success: false, message: error.message })
     }
 }
