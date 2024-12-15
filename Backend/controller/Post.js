@@ -37,6 +37,35 @@ exports.createPost = async (req, res) => {
 }
 
 
+// Post Deletion [delete request]
+exports.deletePost = async (req, res) => {
+    try {
+        // finding post 
+        const post = await Post.findById(req.params.id)
+
+        // checking post presence
+        if (!post) return res.status(404).json({ success: false, message: "Post not found" })
+
+        // Check the post owner and deletion user 
+        if (post.owner.toString() !== req.user._id.toString()) return res.status(401).json({ success: false, message: "Unauthoraized" })
+        await post.deleteOne()
+
+        // Find user 
+        const user = await User.findById(req.user._id)
+        // Find index of the post
+        const index = user.posts.indexOf(req.params.id)
+        // Delete the Post
+        user.posts.splice(index, 1)
+        await user.save()
+
+        res.status(200).json({ success: true, message: "Post Deleted" })
+
+    } catch (error) {
+        return res.status(500).json({ success: false, message: error.message })
+    }
+}
+
+
 // Like and Unlike Post [get request]
 exports.likeAndUnlikePost = async (req, res) => {
     try {
@@ -52,7 +81,7 @@ exports.likeAndUnlikePost = async (req, res) => {
             const index = post.likes.indexOf(req.user._id)
             // Deleting that index 
             post.likes.splice(index, 1)
-            // savr to DB
+            // save to DB
             await post.save()
 
             // response to the user
