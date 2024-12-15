@@ -10,6 +10,6 @@ router
 router
     .route("/post/:id")
     .get(isAuthenticate, likeAndUnlikePost)
-    .delete(isAuthenticate, deletePost)
+  
 
 module.exports = router
