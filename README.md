@@ -127,3 +127,50 @@ Contact
 For any inquiries or feedback, contact us at contact@nusm.com.
 
 Let me know if you want any additions or changes!
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+// Update Profile
+exports.updateProfile = async (req, res) => {
+    try {
+        // Finding User
+        const user = await User.findById(req.user._id)
+        // Getting credetianls
+        const { name, email } = req.body
+        // Updating credetianls
+        if (name) user.name = name
+        if (email) user.email = email
+        // Avator infuture
+
+
+        await user.save()
+        res.status(200).json({ success: true, message: "Profile Successfully Updated" })
+
+    } catch (error) {
+        res.status(500).json({ success: false, message: error.messsage })
+    }
+}

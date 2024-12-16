@@ -101,52 +101,6 @@ exports.likeAndUnlikePost = async (req, res) => {
 }
 
 
-// Follow and Unfollow User 
-exports.followUser = async (req, res) => {
-    try {
-
-        // finding anotherUser
-        const userToFollow = await User.findById(req.params.id)
-        // finding ourself
-        const loggedInUser = await User.findById(req.user._id)
-
-        // check if anotherUser ID not found 
-        if (!userToFollow) return res.status(404).json({ success: false, message: "User not found" })
-
-        // Unfollow the loggedInUser
-        if (loggedInUser.followering.includes(userToFollow._id)) {
-            const indexofFollowing = loggedInUser.followering.indexOf(userToFollow._id)
-            const indexofFollower = userToFollow.followers.indexOf(loggedInUser._id)
-
-            loggedInUser.followering.splice(indexofFollowing, 1)
-            userToFollow.followers.splice(indexofFollower, 1)
-
-            await loggedInUser.save()
-            await userToFollow.save()
-
-            res.status(200).json({ success: true, message: "User Unfollow" })
-        }
-        // Follow the loggedInUser
-        else {
-            // push ourself to anotherUser DB
-            loggedInUser.followering.push(userToFollow._id)
-            // push anotherUser to ourself DB
-            userToFollow.followers.push(loggedInUser._id)
-
-            // save both user's 
-            await loggedInUser.save()
-            await userToFollow.save()
-
-            res.status(200).json({ success: true, message: "User Follow" })
-        }
-
-    } catch (error) {
-        return res.status(500).json({ success: false, message: error.message })
-    }
-}
-
-
-
 // Followed User Post
 exports.getFollowedUserPost = async (req, res) => {
     try {
