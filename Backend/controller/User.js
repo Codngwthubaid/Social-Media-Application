@@ -264,3 +264,14 @@ exports.getUserProfile = async (req, res) => {
         res.status(500).json({ success: false, message: error.message })
     }
 }
+
+
+// Get all users
+exports.getAllUsers = async (req, res) => {
+    try {
+        const user = await User.findById({})
+        res.status(200).json({ success: true, user })
+    } catch (error) {
+        res.status(500).json({ success: false, message: error.message })
+    }
+}
