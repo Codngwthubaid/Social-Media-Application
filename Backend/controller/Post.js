@@ -1,3 +1,4 @@
+const { json } = require("express")
 const Post = require("../models/Post")
 const User = require("../models/User")
 
@@ -111,6 +112,30 @@ exports.followUser = async (req, res) => {
 
         // check if anotherUser ID not found 
         if (!userToFollow) return res.status(404).json({ success: false, message: "User not found" })
+
+        // Unfollow the loggedInUser
+        if (loggedInUser.followering.includes(userToFollow._id)) {
+            const indexofFollowing = loggedInUser.followering.indexOf(userToFollow._id)
+            const indexofFollower = userToFollow.followers.indexOf(loggedInUser._id)
+
+            loggedInUser.followering.splice(indexofFollowing, 1)
+            userToFollow.followers.splice(indexofFollower, 1)
+
+            await loggedInUser.save()
+            await userToFollow.save()
+
+            res.status(200).json({ success: true, message: "User Unfollow" })
+        }
+        // Follow the loggedInUser
+        else {
+            loggedInUser.followering.push(userToFollow._id)
+            userToFollow.followers.push(loggedInUser._id)
+
+            await loggedInUser.save()
+            await userToFollow.save()
+
+            res.status(200), json({ success: true, message: "User Follow" })
+        }
 
         // push ourself to anotherUser DB
         loggedInUser.followering.push(userToFollow._id)
