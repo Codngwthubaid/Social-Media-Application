@@ -215,7 +215,6 @@ exports.deleteProfile = async (req, res) => {
             await post.deleteOne()
         }
 
-        await user.save()
         res.status(200).json({ success: true, message: "User Successfully Deleted" })
 
     } catch (error) {
