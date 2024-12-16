@@ -175,7 +175,6 @@ exports.updatePassword = async (req, res) => {
 }
 
 
-
 // Update Profile
 exports.updateProfile = async (req, res) => {
     try {
@@ -194,5 +193,15 @@ exports.updateProfile = async (req, res) => {
 
     } catch (error) {
         res.status(500).json({ success: false, message: error.messsage })
+    }
+}
+
+
+// Delete User
+exports.deleteProfile = async (req, res) => {
+    try {
+
+    } catch (error) {
+        res.status(500).json({ success: false, message: error.message })
     }
 }
