@@ -101,7 +101,7 @@ exports.likeAndUnlikePost = async (req, res) => {
 }
 
 
-// Follow User 
+// Follow and Unfollow User 
 exports.followUser = async (req, res) => {
     try {
 
@@ -142,5 +142,27 @@ exports.followUser = async (req, res) => {
 
     } catch (error) {
         return res.status(500).json({ success: false, message: error.message })
+    }
+}
+
+
+
+// Followed User Post
+exports.getFollowedUserPost = async (req, res) => {
+    try {
+
+        // Find User
+        const user = await User.findById(req.user._id)
+        // Populate Followers posts
+        const posts = await Post.find({
+            owner: {
+                $in: user.followering
+            }
+        })
+
+        res.status(200).json({ success: true, posts })
+
+    } catch (error) {
+        res.status(500).json({ success: false, message: error.message })
     }
 }
