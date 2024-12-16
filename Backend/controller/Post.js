@@ -120,3 +120,15 @@ exports.getFollowedUserPost = async (req, res) => {
         res.status(500).json({ success: false, message: error.message })
     }
 }
+
+
+// Update Post
+exports.updatePost = async (req, res) => {
+    try {
+
+    } catch (error) {
+        res.status(500).json({ success: false, message: error.message })
+    }
+
+
+}
