@@ -43,7 +43,7 @@ exports.deletePost = async (req, res) => {
         // finding post 
         const post = await Post.findById(req.params.id)
 
-        // checking post presence
+        // checking post presencess
         if (!post) return res.status(404).json({ success: false, message: "Post not found" })
 
         // Check the post owner and deletion user 
@@ -93,6 +93,35 @@ exports.likeAndUnlikePost = async (req, res) => {
             // response to the user
             return res.status(200).json({ success: true, message: "Post Liked" })
         }
+
+    } catch (error) {
+        return res.status(500).json({ success: false, message: error.message })
+    }
+}
+
+
+// Follow User 
+exports.followUser = async (req, res) => {
+    try {
+
+        // finding anotherUser
+        const userToFollow = await User.findById(req.params.id)
+        // finding ourself
+        const loggedInUser = await User.findById(req.user._id)
+
+        // check if anotherUser ID not found 
+        if (!userToFollow) return res.status(404).json({ success: false, message: "User not found" })
+
+        // push ourself to anotherUser DB
+        loggedInUser.followering.push(userToFollow._id)
+        // push anotherUser to ourself DB
+        userToFollow.followers.push(loggedInUser._id)
+
+        // save both user's 
+        await loggedInUser.save()
+        await userToFollow.save()
+
+        res.status(200).json({ success: true, message: "User Follow" })
 
     } catch (error) {
         return res.status(500).json({ success: false, message: error.message })
