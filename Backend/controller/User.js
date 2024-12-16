@@ -203,11 +203,31 @@ exports.deleteProfile = async (req, res) => {
     try {
         const user = await User.findById(req.user._id)
         const posts = user.posts
+        const followers = user.followers
+        const followings = user.followering
+        const userID = user._id
+
         // Deleting user profile
         await user.deleteOne()
 
         // Instant logout the user profile
         res.cookie("token", null, { expires: new Date(Date.now()), httpOnly: true, secure: true })
+
+        // Removing User from Followers Following
+        for (let i = 0; i < followers.length; i++) {
+            const follower = await User.findById(followers[i])
+            const index = follower.followering.indexOf(userID)
+            follower.followering.splice(index, 1)
+            await follower.save()
+        }
+
+        // Removing User from Following Followers
+        for (let i = 0; i < followings.length; i++) {
+            const follows = await User.findById(followings[i])
+            const index = follows.followers.indexOf(userID)
+            follows.followers.splice(index, 1)
+            await follows.save()
+        }
 
         // Deleting all posts of the user
         for (let i = 0; i < posts.length; i++) {
@@ -217,6 +237,16 @@ exports.deleteProfile = async (req, res) => {
 
         res.status(200).json({ success: true, message: "User Successfully Deleted" })
 
+    } catch (error) {
+        res.status(500).json({ success: false, message: error.message })
+    }
+}
+
+
+// Get Profile Details
+exports.getProfile = async (req, res) => {
+    try {
+        const user = await User.findById(req.user._id).populate("posts")
     } catch (error) {
         res.status(500).json({ success: false, message: error.message })
     }
