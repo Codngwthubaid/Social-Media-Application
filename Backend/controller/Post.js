@@ -128,25 +128,17 @@ exports.followUser = async (req, res) => {
         }
         // Follow the loggedInUser
         else {
+            // push ourself to anotherUser DB
             loggedInUser.followering.push(userToFollow._id)
+            // push anotherUser to ourself DB
             userToFollow.followers.push(loggedInUser._id)
 
+            // save both user's 
             await loggedInUser.save()
             await userToFollow.save()
 
-            res.status(200), json({ success: true, message: "User Follow" })
+            res.status(200).json({ success: true, message: "User Follow" })
         }
-
-        // push ourself to anotherUser DB
-        loggedInUser.followering.push(userToFollow._id)
-        // push anotherUser to ourself DB
-        userToFollow.followers.push(loggedInUser._id)
-
-        // save both user's 
-        await loggedInUser.save()
-        await userToFollow.save()
-
-        res.status(200).json({ success: true, message: "User Follow" })
 
     } catch (error) {
         return res.status(500).json({ success: false, message: error.message })
