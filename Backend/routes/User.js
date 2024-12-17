@@ -1,8 +1,17 @@
-// API routes creation and using controller func's 
 const express = require("express");
-const { register, login, logout, updatePassword, updateProfile, deleteProfile, getAllUsers, getUserProfile } = require("../controller/User");
-const { followUser } = require("../controller/User");
 const { isAuthenticate } = require("../middlewares/auth")
+const { followUser } = require("../controller/User");
+const {
+    register,
+    login,
+    logout,
+    updatePassword,
+    updateProfile,
+    deleteProfile,
+    getAllUsers,
+    getUserProfile
+} = require("../controller/User");
+
 const router = express.Router()
 
 router.route("/register").post(register)

@@ -141,7 +141,7 @@ exports.updatePost = async (req, res) => {
 }
 
 
-// Post Comments
+// Add Orr Upadte Post Comments
 exports.addOrrUpdatePostComments = async (req, res) => {
     try {
         const post = await Post.findById(req.params.id)
@@ -174,3 +174,36 @@ exports.addOrrUpdatePostComments = async (req, res) => {
     }
 }
 
+
+// Delete Comments
+exports.deleteComments = async (req, res) => {
+    try {
+        const post = await Post.findById(req.params.id)
+        if (!post) return res.status(400).json({ success: false, message: "Post not found" })
+
+        // Owner have the power to deletes all the comments
+        if (post.owner.toString() === req.user._id.toString()) {
+            // Check commentId is present orr not
+            if (!commentId) return res.status(400).json({ success: false, message: "CommentId is required" })
+
+            // delete any comment
+            post.comments.forEach((item, index) => {
+                if (item._id.toString() === req.body.commentId.toString()) return post.comments.splice(index, 1)
+            });
+
+            await post.save()
+            res.status(200).json({ success: true, message: "Selected Comment Successfully Deleted" })
+
+        } else {
+            // For Other User to Delete their Comments
+            post.comments.forEach((item, index) => {
+                if (item.owner.toString() === req.user._id.toString()) return post.comments.splice(index, 1)
+            });
+        
+            await post.save()
+            res.status(200).json({ success: true, message: "Your Comment Successfully Deleted" })
+        }
+    } catch (error) {
+        res.status(500).json({ success: false, message: error.message })
+    }
+}

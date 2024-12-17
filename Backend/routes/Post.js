@@ -1,9 +1,18 @@
 // API routes creation and using controller func's 
 const express = require("express");
-const { createPost, likeAndUnlikePost, deletePost, getFollowedUserPost, updatePost, postComments, addOrrUpdatePostComments } = require("../controller/Post");
 const { isAuthenticate } = require("../middlewares/auth");
-const router = express.Router()
+const {
+    createPost,
+    likeAndUnlikePost,
+    deletePost,
+    getFollowedUserPost,
+    updatePost,
+    addOrrUpdatePostComments,
+    deleteComments
+} = require("../controller/Post");
 
+
+const router = express.Router()
 router
     .route("/post/upload")
     .post(isAuthenticate, createPost);
@@ -21,7 +30,6 @@ router
 router
     .route("/post/comments/:id")
     .put(isAuthenticate, addOrrUpdatePostComments)
-
-
-
+    .delete(isAuthenticate, deleteComments)
+    
 module.exports = router
