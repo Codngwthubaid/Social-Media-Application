@@ -128,14 +128,49 @@ exports.updatePost = async (req, res) => {
         const post = await Post.findById(req.params.id)
         if (!post) return res.status(400).json({ success: false, message: "Post not found" })
 
-        if(post.owner.toString() !== req.user._id.toString()) return res.status(400).json({success:false,message : "Unauthorized"})
+        if (post.owner.toString() !== req.user._id.toString()) return res.status(400).json({ success: false, message: "Unauthorized" })
         post.caption = req.body.caption
         await post.save()
 
-        res.status(200).json({success:true,message:"Caption Successfully Updated"})
+        res.status(200).json({ success: true, message: "Caption Successfully Updated" })
     } catch (error) {
         res.status(500).json({ success: false, message: error.message })
     }
 
 
 }
+
+
+// Post Comments
+exports.addOrrUpdatePostComments = async (req, res) => {
+    try {
+        const post = await Post.findById(req.params.id)
+        if (!post) return res.status(400).json({ success: false, message: "Post not found" })
+
+        // Init a indexValue by own 
+        let commentIndex = -1;
+
+        // Checks comment allready exist orr not , if yes then assign them to the current index
+        post.comments.forEach((item, index) => {
+            if (item.user.toString() === req.user._id.toString()) commentIndex = index;
+        });
+
+        if (commentIndex !== -1) {
+            post.comments[commentIndex].comment = req.body.comment
+            await post.save()
+            res.status(200).json({ success: true, message: "Comments Successfully Updated" })
+        } else {
+            // Adding new comments if user comment for the first time
+            post.comments.push({
+                user: req.user._id,
+                comment: req.body.comment
+            })
+            await post.save()
+            res.status(200).json({ success: true, message: "Comment Successfully Added" })
+        }
+
+    } catch (error) {
+        res.status(500).json({ success: false, message: error.message })
+    }
+}
+
