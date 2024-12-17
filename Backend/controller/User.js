@@ -283,7 +283,31 @@ exports.forgetPassword = async (req, res) => {
         const user = await User.findOne({ email: req.body.email })
         if (!user) return res.status(404).json({ success: false, message: "User not found" })
 
+        // Accessing getResetPasswordToken()
         const resetPasswordToken = user.getResetPasswordToken()
+        await user.save()
+        
+        // create a resetURl 
+        const resetURl = `${req.protocol}://${req.get("host")}/api/v1/password/resetPassword/${resetPasswordToken}`
+        const message = `Reset your password by clicking on the below link : \n\n ${resetURl}`
+
+        try {
+            await emailSend({
+                email: user.email,
+                subject: "Reset Password",
+                message
+            })
+
+            res.status(200).json({ success: true, message: `Email send to : ${user.email}` })
+
+        } catch (error) {
+            user.resetPasswordToken = undefined
+            user.resetPasswordExpiry = undefined
+            await user.save()
+
+            res.status(500).json({ success: false, message: error.message })
+        }
+
     } catch (error) {
         res.status(500).json({ success: false, message: error.message })
     }
