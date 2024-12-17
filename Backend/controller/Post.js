@@ -184,7 +184,7 @@ exports.deleteComments = async (req, res) => {
         // Owner have the power to deletes all the comments
         if (post.owner.toString() === req.user._id.toString()) {
             // Check commentId is present orr not
-            if (!commentId) return res.status(400).json({ success: false, message: "CommentId is required" })
+            if (req.body.commentId == undefined) return res.status(400).json({ success: false, message: "CommentId is required" })
 
             // delete any comment
             post.comments.forEach((item, index) => {
@@ -199,7 +199,7 @@ exports.deleteComments = async (req, res) => {
             post.comments.forEach((item, index) => {
                 if (item.owner.toString() === req.user._id.toString()) return post.comments.splice(index, 1)
             });
-        
+
             await post.save()
             res.status(200).json({ success: true, message: "Your Comment Successfully Deleted" })
         }
