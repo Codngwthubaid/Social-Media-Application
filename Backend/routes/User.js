@@ -1,7 +1,5 @@
 const express = require("express");
 const { isAuthenticate } = require("../middlewares/auth")
-const { emailSender } = require("../middlewares/sendEmail");
-const { followUser, getProfile, forgetPassword } = require("../controller/User");
 const {
     register,
     login,
@@ -10,7 +8,11 @@ const {
     updateProfile,
     deleteProfile,
     getAllUsers,
-    getUserProfile
+    getUserProfile,
+    followUser,
+    getProfile,
+    forgetPassword,
+    resetPassword
 } = require("../controller/User");
 
 const router = express.Router()
@@ -25,7 +27,8 @@ router.route("/delete/me").delete(isAuthenticate, deleteProfile)
 router.route("/users").get(isAuthenticate, getAllUsers)
 router.route("/user/:id").get(isAuthenticate, getUserProfile)
 router.route("/me").get(isAuthenticate, getProfile)
-router.route("/forget/password").post(isAuthenticate, forgetPassword)
+router.route("/forget/password").post(forgetPassword)
+router.route("/password/resetPassword/:token").put(resetPassword)
 
 
 module.exports = router
