@@ -1,13 +1,12 @@
 const User = require("../models/User")
 const Post = require("../models/Post")
+const { emailSender } = require("../middlewares/sendEmail")
 
 // For Registration  
 exports.register = async (req, res) => {
     try {
         const { name, email, password } = req.body
-        console.log(`User Details comes from body\n Name : ${name}\n Email : ${email}\n Password : ${password}`);
-
-
+        
         // Checking User is present orr not
         let user = await User.findOne({ email })
         if (user)
@@ -286,13 +285,13 @@ exports.forgetPassword = async (req, res) => {
         // Accessing getResetPasswordToken()
         const resetPasswordToken = user.getResetPasswordToken()
         await user.save()
-        
+
         // create a resetURl 
         const resetURl = `${req.protocol}://${req.get("host")}/api/v1/password/resetPassword/${resetPasswordToken}`
         const message = `Reset your password by clicking on the below link : \n\n ${resetURl}`
 
         try {
-            await emailSend({
+            await emailSender({
                 email: user.email,
                 subject: "Reset Password",
                 message
