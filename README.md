@@ -1,155 +1,137 @@
-# React + Vite
+# NUSM - Social Media Web Application
 
-This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
+![NUSM Logo](https://via.placeholder.com/150)
 
-Currently, two official plugins are available:
-
-- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react/README.md) uses [Babel](https://babeljs.io/) for Fast Refresh
-- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react-swc) uses [SWC](https://swc.rs/) for Fast Refresh
-Here’s a README.md file tailored for your NUSM project:
-
-# NUSM - A Vibrant Social Media Platform
-
-NUSM is a dynamic social media platform that connects users through engaging content, creative collaborations, and community-driven interactions. It fosters an interactive space for sharing ideas and experiences. 
+NUSM (Next-Generation User Social Media) is a feature-rich social media web application built using the MERN stack. This application offers users a seamless and engaging experience, providing a variety of functionalities that allow them to connect, interact, and express themselves. The platform is designed to be user-friendly, scalable, and visually appealing, with modern styling and advanced features.
 
 ## Features
 
-- User Authentication and Profile Management
-- Real-Time Post Creation and Engagement
-- Commenting, Sharing, and Liking Posts
-- Creative Collaboration Spaces
-- Dynamic Feed and Search Functionality
-- Community-Driven Interaction Tools
+### User Features:
+- **User Registration**: Create an account to join the platform. ![Register Icon](https://via.placeholder.com/20)
+- **User Authentication**: Secure login and logout. ![Lock Icon](https://via.placeholder.com/20)
+- **Password Reset**: Forgot password functionality using Nodemailer. ![Reset Icon](https://via.placeholder.com/20)
+- **Profile Management**: Users can delete their own accounts. ![Profile Icon](https://via.placeholder.com/20)
+
+### Social Features:
+- **Post Management**: Create posts with captions, delete your posts. ![Post Icon](https://via.placeholder.com/20)
+- **Interactions**:
+  - Like and unlike posts. ![Like Icon](https://via.placeholder.com/20)
+  - Comment on posts. ![Comment Icon](https://via.placeholder.com/20)
+- **Follow System**:
+  - Follow other users. ![Follow Icon](https://via.placeholder.com/20)
+  - See a list of followers and following. ![Followers Icon](https://via.placeholder.com/20)
+- **Search Users**: Search for other users by their names. ![Search Icon](https://via.placeholder.com/20)
+
+### Real-Time Communication:
+- **Instant Chat**: Real-time messaging with followers using Socket.IO. ![Chat Icon](https://via.placeholder.com/20)
+
+### UI/UX:
+- Responsive and modern design using **TailwindCSS**, **MUI**, and **Lucide React** packages. ![UI Icon](https://via.placeholder.com/20)
+
+![Features Illustration](https://via.placeholder.com/600x300)
+
+## Project Structure
+
+The project is organized into two main folders:
+
+### 1. Frontend
+The frontend is built with React.js, TailwindCSS, and other modern libraries to provide a sleek and responsive user interface.
+
+### 2. Backend
+The backend is built with Node.js, Express.js, and MongoDB to handle all server-side logic and data storage. 
+
+### Key Packages Used:
+- **Socket.IO**: For real-time chat functionality.
+- **Nodemailer**: For implementing the password reset feature.
+- **Lucide React**: For modern and lightweight icons.
+- **MUI**: For additional UI components.
+
+## Installation and Setup
+
+### Prerequisites
+Ensure you have the following installed on your machine:
+- Node.js ![Node.js Icon](https://via.placeholder.com/20)
+- MongoDB ![MongoDB Icon](https://via.placeholder.com/20)
+
+### Steps to Run the Project
+
+1. Clone the repository:
+   ```bash
+   git clone https://github.com/your-username/NUSM.git
+   cd NUSM
+   ```
+
+2. Navigate to the Backend folder and install dependencies:
+   ```bash
+   cd Backend
+   npm install
+   ```
+
+3. Set up environment variables in a `.env` file in the `Backend` folder:
+   ```env
+   PORT=5000
+   MONGO_URI=your_mongodb_connection_string
+   JWT_SECRET=your_jwt_secret
+   EMAIL_USER=your_email
+   EMAIL_PASS=your_email_password
+   ```
+
+4. Start the backend server:
+   ```bash
+   npm start
+   ```
+
+5. Navigate to the Frontend folder and install dependencies:
+   ```bash
+   cd ../Frontend
+   npm install
+   ```
+
+6. Start the frontend development server:
+   ```bash
+   npm start
+   ```
+
+7. Open your browser and navigate to:
+   ```
+   http://localhost:3000
+   ```
+
+![Setup Illustration](https://via.placeholder.com/600x300)
 
 ## Tech Stack
 
-NUSM is built using the *MERN stack*:
-
-- *MongoDB*: For a robust and scalable database solution.
-- *Express.js*: For efficient server-side operations and API handling.
-- *React.js*: For a responsive and engaging user interface.
-- *Node.js*: For a high-performance backend.
-
-## Installation
-
-To set up the project locally:
-
-1. *Clone the repository*  
-   ```bash
-   git clone https://github.com/yourusername/nusm.git
-   cd nusm
-
-2. Install dependencies
-Navigate to the backend and frontend directories separately and install required dependencies:
-
-cd backend
-npm install
-cd ../frontend
-npm install
-
-
-3. Environment Variables
-Create a .env file in the backend directory and add the following:
-
-MONGO_URI=<Your MongoDB URI>
-JWT_SECRET=<Your JWT Secret>
-CLOUDINARY_URL=<Your Cloudinary URL> # if using Cloudinary for media
-
-
-4. Run the Application
-
-Start the backend server:
-
-cd backend
-npm start
-
-Start the frontend development server:
-
-cd frontend
-npm start
-
-
-
-5. Access the app at http://localhost:3000.
-
-
-
-Folder Structure
-
-nusm/
-├── backend/       # Express.js server and API logic
-│   ├── models/    # Mongoose schemas
-│   ├── routes/    # API routes
-│   └── utils/     # Helper functions
-├── frontend/      # React.js frontend
-│   ├── src/       # Source files
-│   ├── components # Reusable components
-│   └── assets/    # Static assets
-├── README.md      # Project documentation
-
-Features in Progress
-
-Direct Messaging
-
-Advanced Search Filters
-
-Theme Customization
-
-Multi-Language Support
-
-
-Contribution Guidelines
-
-Contributions are welcome! To contribute:
-
-1. Fork the repository.
-
-
-2. Create a new branch (feature/your-feature).
-
-
-3. Commit your changes.
-
-
-4. Push to the branch.
-
-
-5. Open a Pull Request.
-
-
-
-License
-
-This project is licensed under the MIT License.
-
-Contact
-
-For any inquiries or feedback, contact us at contact@nusm.com.
-
-Let me know if you want any additions or changes!
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
+- **Frontend**:
+  - React.js ![React Icon](https://via.placeholder.com/20)
+  - TailwindCSS ![TailwindCSS Icon](https://via.placeholder.com/20)
+  - MUI ![MUI Icon](https://via.placeholder.com/20)
+  - Lucide React ![Lucide Icon](https://via.placeholder.com/20)
+
+- **Backend**:
+  - Node.js ![Node.js Icon](https://via.placeholder.com/20)
+  - Express.js ![Express Icon](https://via.placeholder.com/20)
+  - MongoDB ![MongoDB Icon](https://via.placeholder.com/20)
+
+- **Additional Libraries**:
+  - Socket.IO ![Socket.IO Icon](https://via.placeholder.com/20)
+  - Nodemailer ![Nodemailer Icon](https://via.placeholder.com/20)
+
+## Future Enhancements
+- Add notifications for post interactions (likes, comments, follows).
+- Implement additional filters and sorting in the search feature.
+- Improve chat functionality with multimedia sharing.
+- Add analytics for user activity and engagement.
+
+![Future Enhancements](https://via.placeholder.com/600x300)
+
+## Contribution
+Contributions are welcome! Feel free to fork the repository, raise issues, or submit pull requests to improve the project.
+
+## License
+This project is licensed under the MIT License. See the LICENSE file for more details.
+
+## Acknowledgements
+- Thanks to all contributors and users who made this project possible.
+- Inspired by modern social media platforms and their innovative features.
+
+![Thank You](https://via.placeholder.com/600x300)
