@@ -4,7 +4,11 @@ import Sidebar from './components/Sidebar'
 const App = () => {
   return (
     <>
-      <Sidebar />
+      <section>
+        <div>
+          <Sidebar />
+        </div>
+      </section>
     </>)
 }
 
