@@ -1,15 +1,9 @@
 import React from 'react'
-import Sidebar from './components/Sidebar'
 
 const App = () => {
   return (
-    <>
-      <section>
-        <div>
-          <Sidebar />
-        </div>
-      </section>
-    </>)
+    <div>App</div>
+  )
 }
 
 export default App
