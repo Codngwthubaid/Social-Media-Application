@@ -1,5 +1,4 @@
 ## Topics Cover - [User]
-
 Register
 Login
 Logout
@@ -7,14 +6,19 @@ Auth SetUp
 
 
 ## Topics Cover - [Post]
-
 Create Post
 Post Like and Unlike
 Post Deletion
 
 
-## Topics Pending - [User]
+## Topics Pending - [Post]
+Update Post
+Get Followed User Post
+Add Comments /// Update Comments on Post
+Delete Comments
 
+
+## Topics Pending - [User]
 Update Profile
 Update Password
 Delete Profile
@@ -23,9 +27,3 @@ Get Own Profile
 Forget Passowrd /// Reset Password
 
 
-## Topics Pending - [Post]
-
-Update Post
-Get Followed User Post
-Add Comments /// Update Comments on Post
-Delete Comments

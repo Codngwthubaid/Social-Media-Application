@@ -13,8 +13,3 @@ exports.isAuthenticate = async (req, res, next) => {
         return res.status(500).json({ msg: error.message })
     }
 }
-
-// token accessing
-// check is present orr not
-// token === decode "verify"
-// user === find by id 

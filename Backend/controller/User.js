@@ -262,7 +262,7 @@ exports.updateProfile = async (req, res) => {
         // Finding User
         const user = await User.findById(req.user._id)
         // Getting credetianls
-        const { name, email } = req.body
+        const { name, email } = req.body 
         // Updating credetianls
         if (name) user.name = name
         if (email) user.email = email
@@ -355,7 +355,7 @@ exports.getAllUsers = async (req, res) => {
         res.status(500).json({ success: false, message: error.message })
     }
 }
-
+               
 
 // Forget Password
 exports.forgetPassword = async (req, res) => {

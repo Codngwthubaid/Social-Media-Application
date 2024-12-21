@@ -101,73 +101,17 @@ exports.likeAndUnlikePost = async (req, res) => {
 }
 
 
-// Followed User Post
-exports.getFollowedUserPost = async (req, res) => {
-    try {
-
-        // Find User
-        const user = await User.findById(req.user._id)
-        // Populate Followers posts
-        const posts = await Post.find({
-            owner: {
-                $in: user.followering
-            }
-        })
-
-        res.status(200).json({ success: true, posts })
-
-    } catch (error) {
-        res.status(500).json({ success: false, message: error.message })
-    }
-}
-
-
 // Update Post
 exports.updatePost = async (req, res) => {
     try {
         const post = await Post.findById(req.params.id)
-        if (!post) return res.status(400).json({ success: false, message: "Post not found" })
+        if (!post) return res.status(404).json({ success: false, message: "Post not found" })
 
-        if (post.owner.toString() !== req.user._id.toString()) return res.status(400).json({ success: false, message: "Unauthorized" })
+        if (post.owner.toString() !== req.user._id.toString()) return res.status(401).json({ success: false, message: "Unauthorized" })
         post.caption = req.body.caption
         await post.save()
 
-        res.status(200).json({ success: true, message: "Caption Successfully Updated" })
-    } catch (error) {
-        res.status(500).json({ success: false, message: error.message })
-    }
-
-
-}
-
-
-// Add Orr Upadte Post Comments
-exports.addOrrUpdatePostComments = async (req, res) => {
-    try {
-        const post = await Post.findById(req.params.id)
-        if (!post) return res.status(400).json({ success: false, message: "Post not found" })
-
-        // Init a indexValue by own 
-        let commentIndex = -1;
-
-        // Checks comment allready exist orr not , if yes then assign them to the current index
-        post.comments.forEach((item, index) => {
-            if (item.user.toString() === req.user._id.toString()) commentIndex = index;
-        });
-
-        if (commentIndex !== -1) {
-            post.comments[commentIndex].comment = req.body.comment
-            await post.save()
-            res.status(200).json({ success: true, message: "Comments Successfully Updated" })
-        } else {
-            // Adding new comments if user comment for the first time
-            post.comments.push({
-                user: req.user._id,
-                comment: req.body.comment
-            })
-            await post.save()
-            res.status(200).json({ success: true, message: "Comment Successfully Added" })
-        }
+        res.status(200).json({ success: true, message: "Post Updated" })
 
     } catch (error) {
         res.status(500).json({ success: false, message: error.message })
@@ -175,35 +119,55 @@ exports.addOrrUpdatePostComments = async (req, res) => {
 }
 
 
-// Delete Comments
-exports.deleteComments = async (req, res) => {
-    try {
-        const post = await Post.findById(req.params.id)
-        if (!post) return res.status(400).json({ success: false, message: "Post not found" })
 
-        // Owner have the power to deletes all the comments
-        if (post.owner.toString() === req.user._id.toString()) {
-            // Check commentId is present orr not
-            if (req.body.commentId == undefined) return res.status(400).json({ success: false, message: "CommentId is required" })
 
-            // delete any comment
-            post.comments.forEach((item, index) => {
-                if (item._id.toString() === req.body.commentId.toString()) return post.comments.splice(index, 1)
-            });
 
-            await post.save()
-            res.status(200).json({ success: true, message: "Selected Comment Successfully Deleted" })
 
-        } else {
-            // For Other User to Delete their Comments
-            post.comments.forEach((item, index) => {
-                if (item.owner.toString() === req.user._id.toString()) return post.comments.splice(index, 1)
-            });
 
-            await post.save()
-            res.status(200).json({ success: true, message: "Your Comment Successfully Deleted" })
-        }
-    } catch (error) {
-        res.status(500).json({ success: false, message: error.message })
-    }
-}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
