@@ -1,7 +1,7 @@
 const crypto = require("crypto")
 const User = require("../models/User")
 const Post = require("../models/Post")
-const { emailSender } = require("../middlewares/sendEmail")
+// const { emailSender } = require("../middlewares/sendEmail")
 
 // For Registration  
 exports.register = async (req, res) => {
@@ -143,12 +143,92 @@ exports.followUser = async (req, res) => {
 // For Deletion
 exports.logout = async (req, res) => {
     try {
-        // Remove the token from the cookie
-        res.status(200).cookie("token", null, { expires: new Date(Date.now()), httpOnly: true, secure: true }).json({ success: true, message: "Logout Successflly" })
+        const options = { expires: new Date(Date.now()), httpOnly: true, secure: true }
+        res.status(200).cookie("token", null, options).json({ success: true, message: "Logout Successfully" })
     } catch (error) {
         res.status(500).json({ success: false, message: error.message })
     }
 }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 // Update Password

@@ -2,18 +2,19 @@ const User = require("../models/User")
 const jwt = require("jsonwebtoken")
 
 exports.isAuthenticate = async (req, res, next) => {
-
     try {
-        // Taking Token
         const { token } = req.cookies;
-        // Token Presence Checking
-        if (!token) return res.status(401).json({ message: "Please login First ..." })
-        //decode token process 
-        const decoded = await jwt.verify(token, process.env.JWT_SECRET)
-        // find user by ID
-        req.user = await User.findById(decoded._id)
+        if (!token) return res.status(401).json({ success: false, msg: "Login First ..." })
+
+        const decode = await jwt.verify(token, process.env.JWT_SECRET)
+        req.user = await User.findById(decode._id);
         next()
     } catch (error) {
-        return res.status(500).json({ message: error.message })
+        return res.status(500).json({ msg: error.message })
     }
 }
+
+// token accessing
+// check is present orr not
+// token === decode "verify"
+// user === find by id 

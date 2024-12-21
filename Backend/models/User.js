@@ -45,6 +45,12 @@ const userSchema = new mongoose.Schema({
     resetPasswordExpiry: Date
 })
 
+// Generating Token 
+userSchema.methods.generationToken = function () {
+    return jwt.sign({ _id: this._id }, process.env.JWT_SECRET)
+}
+
+
 // Generate hash passwod
 userSchema.pre("save", async function (next) {
     if (this.isModified("password")) this.password = await bcrypt.hash(this.password, 10)
@@ -60,10 +66,6 @@ userSchema.methods.matchPassword = async function (password) {
 }
 
 
-// Generating Token 
-userSchema.methods.generationToken = function () {
-    return jwt.sign({ _id: this._id }, process.env.JWT_SECRET)
-}
 
 
 // Reset Password Token

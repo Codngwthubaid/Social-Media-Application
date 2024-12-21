@@ -135,3 +135,74 @@ This project is licensed under the MIT License. See the LICENSE file for more de
 - Inspired by modern social media platforms and their innovative features.
 
 ![Thank You](https://via.placeholder.com/600x300)
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<!-- Auth.js -->
+const User = require("../models/User")
+const jwt = require("jsonwebtoken")
+
+exports.isAuthenticate = async (req, res, next) => {
+
+    try {
+        // Taking Token
+        const { token } = req.cookies;
+        // Token Presence Checking
+        if (!token) return res.status(401).json({ message: "Please login First ..." })
+        //decode token process 
+        const decoded = await jwt.verify(token, process.env.JWT_SECRET)
+        // find user by ID
+        req.user = await User.findById(decoded._id)
+        next()
+    } catch (error) {
+        return res.status(500).json({ message: error.message })
+    }
+}
+
+
+
+<!-- Sending Email -->
+const nodemailer = require("nodemailer")
+
+
+exports.emailSender = async (options) => {
+    const transporter = nodemailer.createTransport({
+        host: process.env.SMTP_HOST,
+        service: process.env.SMTP_SERVICE,
+        port: process.env.SMTP_PORT,
+        secure: process.env.SMTP_SECURE, // true for port 465, false for other ports
+        auth: {
+            user: process.env.SMTP_MAIL,
+            pass: process.env.SMTP_PASSWORD,
+        },
+    });
+
+    const mailOpotions = {
+        from: process.env.SMTP_MAIL,
+        to: options.email,
+        subject: options.subject,
+        text: options.message,
+    } 
+
+
+    await transporter.sendMail(mailOpotions)
+}

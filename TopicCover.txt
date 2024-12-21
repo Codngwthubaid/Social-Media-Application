@@ -1,0 +1,31 @@
+## Topics Cover - [User]
+
+Register
+Login
+Logout
+Auth SetUp
+
+
+## Topics Cover - [Post]
+
+Create Post
+Post Like and Unlike
+Post Deletion
+
+
+## Topics Pending - [User]
+
+Update Profile
+Update Password
+Delete Profile
+Get All Users Profile
+Get Own Profile
+Forget Passowrd /// Reset Password
+
+
+## Topics Pending - [Post]
+
+Update Post
+Get Followed User Post
+Add Comments /// Update Comments on Post
+Delete Comments
