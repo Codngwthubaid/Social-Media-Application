@@ -10,7 +10,7 @@ const NavItem = ({ href, currentTab, setTab, children }) => (
         <Link 
             to={href} 
             onClick={() => setTab(href)}
-            className={`flex flex-col md:flex-row items-center justify-center p-2 hover:bg-gray-100 transition-colors duration-200 ${currentTab === href ? 'text-blue-500' : 'text-gray-600'}`}
+            className={`flex flex-col md:flex-row items-center justify-center p-2 hover:bg-gray-100 transition-colors duration-200 ${currentTab === href ? 'text-blue-600' : 'text-gray-600'}`}
         >
             {children}
         </Link>
@@ -30,7 +30,7 @@ const Navbar = () => {
             <div className="max-w-screen-xl mx-auto px-4">
                 <div className="flex justify-between items-center h-16">
                     <div className="hidden md:block">
-                        <Link to="/" className="text-blue-500 font-bold text-4xl">NUSM</Link>
+                        <Link to="/" className="text-blue-600 font-bold text-4xl">NUSM</Link>
                     </div>
                     <ul className="flex justify-around items-center w-full md:w-auto">
                         <NavItem href="/" currentTab={tab} setTab={setTab}>
