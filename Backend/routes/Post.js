@@ -5,6 +5,7 @@ const {
     likeAndUnlikePost,
     deletePost,
     updatePost,
+    getFollowedUserPost,
 } = require("../controller/Post");
 
 
@@ -19,5 +20,8 @@ router
     .get(isAuthenticate, likeAndUnlikePost)
     .delete(isAuthenticate, deletePost)
 
+router
+    .route("/posts")
+    .get(isAuthenticate, getFollowedUserPost)
 
 module.exports = router

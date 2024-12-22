@@ -1,4 +1,3 @@
-const { json } = require("express")
 const Post = require("../models/Post")
 const User = require("../models/User")
 
@@ -101,7 +100,7 @@ exports.likeAndUnlikePost = async (req, res) => {
 }
 
 
-// Update Post
+// Update Post [put request]
 exports.updatePost = async (req, res) => {
     try {
         const post = await Post.findById(req.params.id)
@@ -119,11 +118,18 @@ exports.updatePost = async (req, res) => {
 }
 
 
+// Follower Posts [get request]
+exports.getFollowedUserPost = async (req, res) => {
+    try {
+        const user = await User.findById(req.user._id)
+        // Populate Followers posts
+        const posts = await Post.find({ owner: { $in: user.followering } })
+        res.status(200).json({ success: true, posts })
 
-
-
-
-
+    } catch (error) {
+        res.status(500).json({ success: false, message: error.message })
+    }
+}
 
 
 
