@@ -13,9 +13,6 @@ Update Post (captions)
 Get Followed User Post
 Add Comments 
 Update Comments 
-
-
-## Topics Pending - [Post]
 Delete Comments
 
 
