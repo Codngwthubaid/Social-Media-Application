@@ -132,13 +132,31 @@ exports.getFollowedUserPost = async (req, res) => {
 }
 
 
+// Add and Update Post Comment [post request]
+exports.addOrrUpdatePostComments = async (req, res) => {
+    try {
+        const post = await Post.findById(req.params.id)
+        if (!post) return res.status(400).json({ success: false, message: "Post not found" })
 
-
-
-
-
-
-
+        let commentIndex = -1
+        post.comments.forEach((comment, index) => {
+            if (comment.user.toString() === req.user._id.toString()) {
+                commentIndex = index
+            }
+        })
+        if (commentIndex !== -1) {
+            post.comments[commentIndex].comment = req.body.comment
+            await post.save()
+            res.status(200).json({ success: true, message: "Comment Successfully Updated" })
+        } else {
+            post.comments.push({ user: req.user._id, comment: req.body.comment })
+            await post.save()
+            res.status(200).json({ success: true, message: "Comment Successfully Added" })
+        }
+    } catch (error) {
+        res.status(500).json({ success: false, message: error.message })
+    }
+}
 
 
 
