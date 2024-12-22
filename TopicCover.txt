@@ -9,12 +9,13 @@ Auth SetUp
 Create Post
 Post Like and Unlike
 Post Deletion
+Update Post (captions)
+Get Followed User Post
+Add Comments 
+Update Comments 
 
 
 ## Topics Pending - [Post]
-Update Post
-Get Followed User Post
-Add Comments /// Update Comments on Post
 Delete Comments
 
 
@@ -24,6 +25,7 @@ Update Password
 Delete Profile
 Get All Users Profile
 Get Own Profile
-Forget Passowrd /// Reset Password
+Forget Passowrd 
+Reset Password
 
 

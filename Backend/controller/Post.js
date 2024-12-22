@@ -159,6 +159,48 @@ exports.addOrrUpdatePostComments = async (req, res) => {
 }
 
 
+// Delete Commets [delete request]
+exports.deletePostComment = async (req, res) => {
+    try {
+        const post = await Post.findById(req.params.id)
+        if (!post) return res.status(400).json({ success: false, message: "Post not found" })
+
+        // Owner have the super power for delete any comment
+        if (post.owner.toString() === req.user._id.toString()) {
+            if (req.body.commentId == undefined) return res.status(400).json({ success: false, message: "Comment ID is required" })
+
+            post.comments.forEach((comment, index) => {
+                if (comment._id.toString() === req.body.commentId.toString()) {
+                    post.comments.splice(index, 1)
+                }
+            })
+            await post.save()
+            res.status(200).json({ success: true, message: "Selected Comment Deleted" })
+        } else {
+            // User can delete only his/her comment
+            post.comments.forEach((comment, index) => {
+                if (comment.user.toString() === req.user._id.toString()) {
+                    post.comments.splice(index, 1)
+                }
+            })
+            await post.save()
+            res.status(200).json({ success: true, message: "Your Comment Deleted" })
+        }
+
+    } catch (error) {
+        res.status(500).json({ success: false, message: error.message })
+    }
+}
+
+
+
+// post chaiye
+// check post
+// owner regards super powers
+// normal user = normal power
+// save , response user 
+
+
 
 
 

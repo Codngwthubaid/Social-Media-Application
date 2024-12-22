@@ -7,6 +7,7 @@ const {
     updatePost,
     getFollowedUserPost,
     addOrrUpdatePostComments,
+    deletePostComment,
 } = require("../controller/Post");
 
 
@@ -28,6 +29,7 @@ router
 router
     .route("/post/comments/:id")
     .put(isAuthenticate, addOrrUpdatePostComments)
+    .delete(isAuthenticate, deletePostComment)
 
 
 module.exports = router
