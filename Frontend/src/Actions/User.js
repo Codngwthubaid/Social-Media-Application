@@ -17,8 +17,20 @@ export const loadUser = () => async (dispatch) => {
     try {
         dispatch({ type: 'loadUserRequest' })
         const { data } = await axios.get("/api/v1/me")
-        dispatch({ type: 'loadUserSuccess', payload: data.user , isAuthenticate: true })
+        dispatch({ type: 'loadUserSuccess', payload: data.user, isAuthenticate: true })
     } catch (error) {
-        dispatch({ type: 'loadUserFailure', payload: error.response.data.message , isAuthenticate: false })
+        dispatch({ type: 'loadUserFailure', payload: error.response.data.message, isAuthenticate: false })
     }
 }
+
+
+// Post Of Followed Users Function
+export const postOfFollowedUsers = () => async (dispatch) => {
+    try {
+        dispatch({ type: 'postOfFollowedUsersRequest' })
+        const { data } = await axios.get("/api/v1/posts")
+        dispatch({ type: 'postOfFollowedUsersSuccess', payload: data.posts })
+    } catch (error) {
+        dispatch({ type: 'postOfFollowedUsersFailure', payload: error.response.data.message })
+    }
+};
