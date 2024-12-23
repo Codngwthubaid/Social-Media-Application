@@ -1,8 +1,8 @@
 import React, { useState } from 'react'
-import img3 from "../../assets/Images/img3.jpg"
 import { Link } from 'react-router-dom'
 import { useDispatch } from 'react-redux'
 import { login } from '../../Actions/User'
+import img3 from "../../assets/Images/img3.png"
 
 const Login = () => {
 
@@ -19,8 +19,8 @@ const Login = () => {
 
     return (
 
-        <form className="container mx-auto flex justify-around items-center h-screen" onSubmit={handleSubmit}>
-            <div className='w-[40vw]'>
+        <form className="container mx-auto flex gap-y-8 flex-col-reverse sm:flex-row justify-evenly sm:justify-around items-center h-screen" onSubmit={handleSubmit}>
+            <div className='sm:w-[40vw] pb-20 sm:pb-0'>
                 <div className="mb-5">
                     <label htmlFor="email" className="block mb-2 text-sm font-medium text-gray-900 ">Your email</label>
                     <input
@@ -54,7 +54,7 @@ const Login = () => {
                     <Link to="/register">Create new account</Link>
                 </button>
             </div>
-            <div className='w-[40vw] rounded-3xl mt-14'>
+            <div className='w-10/12 sm:w-[40vw] rounded-3xl pt-10 '>
                 <img src={img3} alt="Hero-Img" />
             </div>
         </form>
