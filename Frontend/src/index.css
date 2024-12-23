@@ -4,6 +4,6 @@
 @tailwind components;
 @tailwind utilities;
 
-body{
-    font-family: "Poppins", serif;
-}
+body{font-family: "Poppins", serif}
+.hide-scrollbar::-webkit-scrollbar {display: none}
+.hide-scrollbar {-ms-overflow-style: none;scrollbar-width: none}

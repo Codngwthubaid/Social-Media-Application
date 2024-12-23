@@ -123,7 +123,7 @@ exports.getFollowedUserPost = async (req, res) => {
     try {
         const user = await User.findById(req.user._id)
         // Populate Followers posts
-        const posts = await Post.find({ owner: { $in: user.followering } })
+        const posts = await Post.find({ owner: { $in: user.followering } }).populate("owner likes comments.user")
         res.status(200).json({ success: true, posts: posts.reverse() })
 
     } catch (error) {
