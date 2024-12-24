@@ -23,3 +23,11 @@ export const postOfFollowedUsersReducer = createReducer(initialState, (builder) 
     builder.addCase('postOfFollowedUsersFailure', (state, action) => { state.loading = false; state.error = action.payload; });
     builder.addCase('clearError', (state) => { state.error = null })
 })
+
+
+export const allUsersReducer = createReducer(initialState, (builder) => {
+    builder.addCase('allUsersReducerRequest', (state) => { state.loading = true; });
+    builder.addCase('allUsersReducerSuccess', (state, action) => { state.loading = false; state.users = action.payload; });
+    builder.addCase('allUsersReducerFailure', (state, action) => { state.loading = false; state.error = action.payload; });
+    builder.addCase('clearError', (state) => { state.error = null })
+})

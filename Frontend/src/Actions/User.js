@@ -34,3 +34,14 @@ export const postOfFollowedUsers = () => async (dispatch) => {
         dispatch({ type: 'postOfFollowedUsersFailure', payload: error.response.data.message })
     }
 };
+
+// Getting All Users Function
+export const getAllUsers = () => async (dispatch) => {
+    try {
+        dispatch({ type: 'allUsersReducerRequest' })
+        const { data } = await axios.get("/api/v1/users")
+        dispatch({ type: 'allUsersReducerSuccess', payload: data.users })
+    } catch (error) {
+        dispatch({ type: 'allUsersReducerFailure', payload: error.response.data.message })
+    }
+};
