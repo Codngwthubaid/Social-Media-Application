@@ -12,6 +12,9 @@ export const likePost = (id) => async (dispatch) => {
 
 export const addCommentOnPost = (id, comment) => async (dispatch) => {
     try {
+        if (!id) {
+            throw new Error('Post ID is not present');
+        }
         dispatch({ type: "addCommentRequest" });
         const { data } = await axios.put(`/api/v1/post/comments/${id}`, { comment }, { headers: { "Content-Type": "application/json" } });
         dispatch({ type: "addCommentSuccess", payload: data.message });

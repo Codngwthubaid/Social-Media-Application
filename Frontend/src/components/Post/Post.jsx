@@ -42,16 +42,30 @@ const Post = ({
         dispatch(postOfFollowedUsers())
     }
 
-    const handleComments = async (e) => {
-        e.preventDefault()
-        if (!postId) console.log("Post ID is not present")
-        console.log(postId, commentValueByUser);
-        await dispatch(addCommentOnPost(postId, commentValueByUser))
-        setCommentValueByUser("")
-        if (isAccount) console.log("This is my profile ...");
-        dispatch(addCommentOnPost())
+    // const handleComments = async (e) => {
+    //     e.preventDefault()
+    //     if (!postId) console.log("Post ID is not present")
+    //     console.log(postId, commentValueByUser);
+    //     await dispatch(addCommentOnPost(postId, commentValueByUser))
+    //     setCommentValueByUser("")
+    //     if (isAccount) console.log("This is my profile ...");
+    //     dispatch(addCommentOnPost())
 
-    }
+    // }
+
+
+    const handleComments = async (e) => {
+        e.preventDefault();
+        console.log(postId);
+        
+        if (commentValueByUser.trim()) {
+            await dispatch(addCommentOnPost(postId, commentValueByUser));
+            setCommentValueByUser('');
+            if (isAccount) {
+                console.log('This is my profile ...');
+            }
+        }
+    };
 
     useEffect(() => {
         likes.forEach((item) => {
@@ -126,7 +140,7 @@ const Post = ({
                             <button onClick={() => { setCommentValueByUserToggle(!commentValueByUserToggle) }}><IoMdClose /></button>
                         </div>
                         <div className='flex items-center justify-between my-5'>
-                            <form onClick={handleComments}>
+                            <form>
                                 <input
                                     required
                                     type="text"
@@ -136,7 +150,7 @@ const Post = ({
                                     onChange={(e) => setCommentValueByUser(e.target.value)}
                                 />
                             </form>
-                            <button type='submit' className='bg-blue-500 hover:bg-blue-600  p-2 rounded-lg text-white'>Add</button>
+                            <button onClick={handleComments} className='bg-blue-500 hover:bg-blue-600  p-2 rounded-lg text-white'>Add</button>
                         </div>
                     </DialogTitle>
                 </Dialog>
