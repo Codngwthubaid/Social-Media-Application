@@ -1,11 +1,10 @@
 import React, { useState, useEffect } from 'react'
 import { Link } from 'react-router-dom'
 import { MdOutlineModeComment } from "react-icons/md";
-import { MdModeComment } from "react-icons/md";
 import { AiOutlineLike } from "react-icons/ai";
 import { AiFillLike } from "react-icons/ai";
 import { useDispatch, useSelector } from 'react-redux';
-import { likePost } from '../../Actions/Post';
+import { addCommentOnPost, likePost } from '../../Actions/Post';
 import { postOfFollowedUsers } from '../../Actions/User';
 import { MdDelete } from "react-icons/md";
 import Dialog from '@mui/material/Dialog';
@@ -27,8 +26,7 @@ const Post = ({
 }) => {
 
     const [like, setLike] = useState(false);
-    const [likeUser, setLikeUser] = useState("")
-    const [comment, setComment] = useState("");
+    const [likeUser, setLikeUser] = useState(false)
     const [commentValueByUser, setCommentValueByUser] = useState("")
     const [commentValueByUserToggle, setCommentValueByUserToggle] = useState(false)
 
@@ -46,7 +44,10 @@ const Post = ({
 
     const handleComments = async (e) => {
         e.preventDefault()
+        if (!postId) console.log("Post ID is not present")
+        console.log(postId, commentValueByUser);
         await dispatch(addCommentOnPost(postId, commentValueByUser))
+        setCommentValueByUser("")
         if (isAccount) console.log("This is my profile ...");
         dispatch(addCommentOnPost())
 
@@ -85,7 +86,7 @@ const Post = ({
                             {like ? <AiFillLike className="text-blue-500 w-6 h-6" /> : <AiOutlineLike className='w-6 h-6' />}
                         </button>
                         <button onClick={() => { setCommentValueByUserToggle(!commentValueByUserToggle) }}>
-                            {comment ? <MdModeComment className="text-blue-500 w-6 h-6" /> : <MdOutlineModeComment className='w-6 h-6' />}
+                            <MdOutlineModeComment className='w-6 h-6' />
                         </button>
                     </div>
                     <div className="space-y-2">
@@ -125,7 +126,7 @@ const Post = ({
                             <button onClick={() => { setCommentValueByUserToggle(!commentValueByUserToggle) }}><IoMdClose /></button>
                         </div>
                         <div className='flex items-center justify-between my-5'>
-                            <form onSubmit={handleComments}>
+                            <form onClick={handleComments}>
                                 <input
                                     required
                                     type="text"

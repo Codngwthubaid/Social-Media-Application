@@ -10,6 +10,7 @@ import { toast, Toaster } from 'react-hot-toast'
 const Home = () => {
 
   const { error: likeError, message } = useSelector(state => state.Likes)
+  const { error: CommentError, message: commentMessage } = useSelector(state => state.Comments)
   const { loading, posts, error } = useSelector(state => state.postOfFollowedUsers)
   const { users, loading: userLoading } = useSelector(state => state.allUsers)
 
@@ -24,6 +25,11 @@ const Home = () => {
     if (likeError) toast.error(likeError); dispatch({ type: 'clearError' })
     if (message) toast.success(message); dispatch({ type: 'clearMessage' })
   }, [toast, likeError, message])
+
+  useEffect(() => {
+    if (CommentError) toast.error(CommentError); dispatch({ type: 'clearError' })
+    if (commentMessage) toast.success(commentMessage); dispatch({ type: 'clearMessage' })
+  }, [toast, CommentError, commentMessage])
 
 
   return loading === true || userLoading === true ? <Loader /> :
