@@ -22,3 +22,16 @@ export const addCommentOnPost = (id, comment) => async (dispatch) => {
         dispatch({ type: "addCommentFailure", payload: error.response.data.message });
     }
 };
+
+export const deleteCommentOnPost = (id, commentId) => async (dispatch) => {
+    try {
+        if (!id) {
+            throw new Error('Post ID is not present');
+        }
+        dispatch({ type: "deleteCommentRequest" });
+        const { data } = await axios.delete(`/api/v1/post/comments/${id}`, { data: commentId });
+        dispatch({ type: "deleteCommentSuccess", payload: data.message });
+    } catch (error) {
+        dispatch({ type: "deleteCommentFailure", payload: error.response.data.message });
+    }
+};

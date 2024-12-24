@@ -10,7 +10,8 @@ import { toast, Toaster } from 'react-hot-toast'
 const Home = () => {
 
   const { error: likeError, message } = useSelector(state => state.Likes)
-  const { error: CommentError, message: commentMessage } = useSelector(state => state.Comments)
+  const { error: addCommentError, message: addCommentMessage } = useSelector(state => state.addComments)
+  const { error: deleteCommentError, message: deleteCommentMessage } = useSelector(state => state.deleteComments)
   const { loading, posts, error } = useSelector(state => state.postOfFollowedUsers)
   const { users, loading: userLoading } = useSelector(state => state.allUsers)
 
@@ -27,9 +28,14 @@ const Home = () => {
   }, [toast, likeError, message])
 
   useEffect(() => {
-    if (CommentError) toast.error(CommentError); dispatch({ type: 'clearError' })
-    if (commentMessage) toast.success(commentMessage); dispatch({ type: 'clearMessage' })
-  }, [toast, CommentError, commentMessage])
+    if (addCommentError) toast.error(addCommentError); dispatch({ type: 'clearError' })
+    if (addCommentMessage) toast.success(addCommentMessage); dispatch({ type: 'clearMessage' })
+  }, [toast, addCommentError, addCommentMessage])
+
+  useEffect(() => {
+    if (deleteCommentError) toast.error(deleteCommentError); dispatch({ type: 'clearError' })
+    if (deleteCommentMessage) toast.success(deleteCommentMessage); dispatch({ type: 'clearMessage' })
+  }, [toast, deleteCommentError, addCommentMessage])
 
 
   return loading === true || userLoading === true ? <Loader /> :
