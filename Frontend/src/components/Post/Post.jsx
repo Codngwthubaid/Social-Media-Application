@@ -11,6 +11,7 @@ import Dialog from '@mui/material/Dialog';
 import DialogTitle from '@mui/material/DialogTitle';
 import { IoMdClose } from "react-icons/io";
 import User from '../User/User';
+import CommentCard from '../CommentCard/CommentCard';
 
 const Post = ({
     postId,
@@ -42,30 +43,16 @@ const Post = ({
         dispatch(postOfFollowedUsers())
     }
 
-    // const handleComments = async (e) => {
-    //     e.preventDefault()
-    //     if (!postId) console.log("Post ID is not present")
-    //     console.log(postId, commentValueByUser);
-    //     await dispatch(addCommentOnPost(postId, commentValueByUser))
-    //     setCommentValueByUser("")
-    //     if (isAccount) console.log("This is my profile ...");
-    //     dispatch(addCommentOnPost())
-
-    // }
-
-
     const handleComments = async (e) => {
-        e.preventDefault();
-        console.log(postId);
-        
-        if (commentValueByUser.trim()) {
-            await dispatch(addCommentOnPost(postId, commentValueByUser));
-            setCommentValueByUser('');
-            if (isAccount) {
-                console.log('This is my profile ...');
-            }
-        }
-    };
+        e.preventDefault()
+        if (!postId) console.log("Post ID is not present")
+        console.log(postId, commentValueByUser);
+        await dispatch(addCommentOnPost(postId, commentValueByUser))
+        setCommentValueByUser("")
+        if (isAccount) console.log("This is my profile ...");
+        dispatch(addCommentOnPost())
+
+    }
 
     useEffect(() => {
         likes.forEach((item) => {
@@ -150,8 +137,24 @@ const Post = ({
                                     onChange={(e) => setCommentValueByUser(e.target.value)}
                                 />
                             </form>
+
                             <button onClick={handleComments} className='bg-blue-500 hover:bg-blue-600  p-2 rounded-lg text-white'>Add</button>
                         </div>
+
+                        {comments.length > 0 ? (comments.map((comment) => {
+                            <div>{<CommentCard
+                                userId={comment.user._id}
+                                name={comment.user.name}
+                                avatar={comment.user.avatar.url}
+                                comment={comment.comment}
+                                commentId={comment._id}
+                                postId={postId}
+                                isAccount={isAccount}
+                            />
+                            }</div>
+                        })) : (console.log("Null")
+                        )}
+
                     </DialogTitle>
                 </Dialog>
             </div>
