@@ -44,8 +44,11 @@ const Post = ({
         dispatch(postOfFollowedUsers())
     }
 
-    const handleComments = () => {
-        console.log("Add Comments ...");
+    const handleComments = async (e) => {
+        e.preventDefault()
+        await dispatch(addCommentOnPost(postId, commentValueByUser))
+        if (isAccount) console.log("This is my profile ...");
+        dispatch(addCommentOnPost())
 
     }
 
@@ -129,7 +132,7 @@ const Post = ({
                                     placeholder='Comment here ...'
                                     className='border border-gray-800 rounded-lg p-2 w-full'
                                     value={commentValueByUser}
-                                    onClick={(e) => setCommentValueByUser(e.target.value)}
+                                    onChange={(e) => setCommentValueByUser(e.target.value)}
                                 />
                             </form>
                             <button type='submit' className='bg-blue-500 hover:bg-blue-600  p-2 rounded-lg text-white'>Add</button>
