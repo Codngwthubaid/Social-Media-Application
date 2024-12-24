@@ -1,10 +1,17 @@
-import React, { useState } from 'react'
+import React, { useState, useEffect } from 'react'
 import { Link } from 'react-router-dom'
-import { RxAvatar } from "react-icons/rx";
 import { MdOutlineModeComment } from "react-icons/md";
 import { MdModeComment } from "react-icons/md";
 import { AiOutlineLike } from "react-icons/ai";
 import { AiFillLike } from "react-icons/ai";
+import { useDispatch, useSelector } from 'react-redux';
+import { likePost } from '../../Actions/Post';
+import { postOfFollowedUsers } from '../../Actions/User';
+import { MdDelete } from "react-icons/md";
+import Dialog from '@mui/material/Dialog';
+import DialogTitle from '@mui/material/DialogTitle';
+import { IoMdClose } from "react-icons/io";
+import User from '../User/User';
 
 const Post = ({
     postId,
@@ -20,31 +27,43 @@ const Post = ({
 }) => {
 
     const [like, setLike] = useState(false);
+    const [likeUser, setLikeUser] = useState("")
     const [comment, setComment] = useState(false);
 
-    const handleLikes = () => {
+    const dispatch = useDispatch()
+    const { user } = useSelector(state => state.user)
+
+
+    const handleLikes = async () => {
         setLike(!like)
+        await dispatch(likePost(postId))
+        if (isAccount) console.log("Bring my posts ...");
+        dispatch(postOfFollowedUsers())
     }
     const handleComments = () => {
         setComment(!comment)
     }
 
+    useEffect(() => {
+        likes.forEach((item) => {
+            if (item._id === user._id) setLike(true)
+        })
+    }, [likes, user._id])
+
+
 
     return (
         <div className="max-w-md mx-auto text-black border border-gray-800 rounded-lg mb-6">
             <div className="flex items-center p-4">
-                <div className="h-8 w-8 rounded-full border-2 border-blue-500 overflow-hidden">
-                    <img
-                        src="/placeholder.svg"
-                        alt="Profile"
-                        className="h-full w-full object-cover"
-                    />
+                <div>
+                    <img src={ownerImg} className="h-8 w-8 rounded-2xl object-cover border-2 border-blue-500" alt="User_Img" />
                 </div>
-                <div className="ml-4 flex-1">
+                <div className="ml-2 flex-1">
                     <Link to={`/user/${ownerId}`}>
                         <span className="font-semibold text-lg">{ownerName}</span>
                     </Link>
                 </div>
+                {isDelete && <MdDelete className='hover:cursor-pointer w-5 h-5' />}
             </div>
 
             <div>
@@ -62,15 +81,33 @@ const Post = ({
                         </button>
                     </div>
                     <div className="space-y-2">
-                        <p className="font-semibold text-base">{5} likes</p>
-
+                        <button className="font-semibold text-base" onClick={() => setLikeUser(!likeUser)} disabled={likes.length === 0 ? true : false}>{likes.length} likes</button>
                     </div>
                 </div>
 
-                <p className="text-base">
+                <div className="text-base">
                     <span className="font-semibold">{ownerName}</span>{' '}
                     {caption}{' '}
-                </p>
+                </div>
+
+                <Dialog open={likeUser} onClose={() => { setLikeUser(!likeUser) }} >
+                    <DialogTitle className='h-[80vh] sm:w-[30vw] w-[70vw]'>
+                        <div className='flex items-center justify-between'>
+                            <div>Post Liked </div>
+                            <button onClick={() => { setLikeUser(!likeUser) }}><IoMdClose /></button>
+                        </div>
+                        <div>
+                            {likes.map((like) => (
+                                <User
+                                    key={like._id}
+                                    userId={like._id}
+                                    name={like.name}
+                                    avator={like.avator}
+                                />
+                            ))}
+                        </div>
+                    </DialogTitle>
+                </Dialog>
             </div>
         </div>
     )

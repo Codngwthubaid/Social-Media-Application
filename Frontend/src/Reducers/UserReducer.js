@@ -31,3 +31,5 @@ export const allUsersReducer = createReducer(initialState, (builder) => {
     builder.addCase('allUsersReducerFailure', (state, action) => { state.loading = false; state.error = action.payload; });
     builder.addCase('clearError', (state) => { state.error = null })
 })
+
+

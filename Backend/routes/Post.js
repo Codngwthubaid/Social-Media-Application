@@ -18,8 +18,8 @@ router
 
 router
     .route("/post/:id")
-    .put(isAuthenticate, updatePost)
     .get(isAuthenticate, likeAndUnlikePost)
+    .put(isAuthenticate, updatePost)
     .delete(isAuthenticate, deletePost)
 
 router
