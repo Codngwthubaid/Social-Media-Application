@@ -28,7 +28,10 @@ const Post = ({
 
     const [like, setLike] = useState(false);
     const [likeUser, setLikeUser] = useState("")
-    const [comment, setComment] = useState(false);
+    const [comment, setComment] = useState("");
+    const [commentValueByUser, setCommentValueByUser] = useState("")
+    const [commentValueByUserToggle, setCommentValueByUserToggle] = useState(false)
+
 
     const dispatch = useDispatch()
     const { user } = useSelector(state => state.user)
@@ -40,8 +43,10 @@ const Post = ({
         if (isAccount) console.log("Bring my posts ...");
         dispatch(postOfFollowedUsers())
     }
+
     const handleComments = () => {
-        setComment(!comment)
+        console.log("Add Comments ...");
+
     }
 
     useEffect(() => {
@@ -76,12 +81,12 @@ const Post = ({
                         <button onClick={(handleLikes)}>
                             {like ? <AiFillLike className="text-blue-500 w-6 h-6" /> : <AiOutlineLike className='w-6 h-6' />}
                         </button>
-                        <button onClick={(handleComments)}>
+                        <button onClick={() => { setCommentValueByUserToggle(!commentValueByUserToggle) }}>
                             {comment ? <MdModeComment className="text-blue-500 w-6 h-6" /> : <MdOutlineModeComment className='w-6 h-6' />}
                         </button>
                     </div>
                     <div className="space-y-2">
-                        <button className="font-semibold text-base" onClick={() => setLikeUser(!likeUser)} disabled={likes.length === 0 ? true : false}>{likes.length} likes</button>
+                        <button className="font-medium text-base" onClick={() => setLikeUser(!likeUser)} disabled={likes.length === 0 ? true : false}>{likes.length} likes</button>
                     </div>
                 </div>
 
@@ -105,6 +110,29 @@ const Post = ({
                                     avator={like.avator}
                                 />
                             ))}
+                        </div>
+                    </DialogTitle>
+                </Dialog>
+
+
+                <Dialog open={commentValueByUserToggle} onClose={() => { setCommentValueByUserToggle(!commentValueByUserToggle) }} >
+                    <DialogTitle className='h-[80vh] sm:w-[30vw] w-[70vw]'>
+                        <div className='flex items-center justify-between'>
+                            <div>Add Comments </div>
+                            <button onClick={() => { setCommentValueByUserToggle(!commentValueByUserToggle) }}><IoMdClose /></button>
+                        </div>
+                        <div className='flex items-center justify-between my-5'>
+                            <form onSubmit={handleComments}>
+                                <input
+                                    required
+                                    type="text"
+                                    placeholder='Comment here ...'
+                                    className='border border-gray-800 rounded-lg p-2 w-full'
+                                    value={commentValueByUser}
+                                    onClick={(e) => setCommentValueByUser(e.target.value)}
+                                />
+                            </form>
+                            <button type='submit' className='bg-blue-500 hover:bg-blue-600  p-2 rounded-lg text-white'>Add</button>
                         </div>
                     </DialogTitle>
                 </Dialog>
