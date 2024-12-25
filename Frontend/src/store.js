@@ -10,7 +10,7 @@ const store = configureStore({
         Likes: likeReducer,
         addComments: addCommentReducer,
         deleteComments: deleteCommentReducer,
-        myPost: myPostReducer
+        myPost: myPostReducer,
     }
 })
 

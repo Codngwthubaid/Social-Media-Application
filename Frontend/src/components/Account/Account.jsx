@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from "react"
 import { useDispatch, useSelector } from "react-redux"
-import { myPost } from "../../Actions/User"
+import { logoutUser, myPost } from "../../Actions/User"
 import Loader from "../Loader/Loader"
 import Post from "../Post/Post"
 import toast, { Toaster } from "react-hot-toast"
@@ -17,9 +17,9 @@ const Account = () => {
   const dispatch = useDispatch()
   const { loading, posts } = useSelector((state) => state.myPost)
   const { loading: userLoading, user } = useSelector((state) => state.user)
-  const { error: likeError, message } = useSelector(state => state.Likes)
-  const { error: addCommentError, message: addCommentMessage } = useSelector(state => state.addComments)
-  const { error: deleteCommentError, message: deleteCommentMessage } = useSelector(state => state.deleteComments)
+  const { error: likeError, message } = useSelector((state) => state.Likes)
+  const { error: addCommentError, message: addCommentMessage } = useSelector((state) => state.addComments)
+  const { error: deleteCommentError, message: deleteCommentMessage } = useSelector((state) => state.deleteComments)
 
   const [followers, setFollowers] = useState("")
   const [following, setFollowing] = useState("")
@@ -40,9 +40,16 @@ const Account = () => {
   }, [toast, deleteCommentError, addCommentMessage, dispatch])
 
 
+  const logoutHandler = () => {
+    dispatch(logoutUser())
+  }
+  
+
   useEffect(() => {
     dispatch(myPost)
   }, [dispatch])
+
+
 
   return loading === true || userLoading === true ? <Loader /> : (
     <div className="border-2 border-red-500 flex justify-center items-center flex-col-reverse sm:mt-16 sm:flex-row">
@@ -89,9 +96,9 @@ const Account = () => {
         <div>{user.posts.length}</div>
 
 
-        <button><Link to="/update/password">Update Password</Link></button>
-        <button><Link to="/update/profile">Update Profle</Link></button>
-        <button><Link to="/logout">Logout</Link></button>
+        <div><button><Link to="/update/password">Update Password</Link></button></div>
+        <div><button><Link to="/update/profile">Update Profle</Link></button></div>
+        <div><button><Link to="/logout" onClick={logoutHandler}>Logout</Link></button></div>
 
 
         <Dialog open={followers} onClose={() => { setFollowers(!followers) }} >

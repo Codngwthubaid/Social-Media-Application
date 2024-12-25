@@ -46,7 +46,7 @@ export const getAllUsers = () => async (dispatch) => {
     }
 };
 
-// 
+// Getting My Post Function
 export const myPost = () => async (dispatch) => {
     try {
         dispatch({ type: 'myPostRequest' })
@@ -54,6 +54,17 @@ export const myPost = () => async (dispatch) => {
         dispatch({ type: 'myPostSuccess', payload: data.posts })
     } catch (error) {
         dispatch({ type: 'myPostFailure', payload: error.response.data.message })
+    }
+};
+
+// Logout Function
+export const logoutUser = () => async (dispatch) => {
+    try {
+        dispatch({ type: 'logoutRequest' })
+        await axios.get("/api/v1/logout")
+        dispatch({ type: 'logoutSuccess'  })
+    } catch (error) {
+        dispatch({ type: 'logoutFailure', payload: error.response.data.message })
     }
 };
 

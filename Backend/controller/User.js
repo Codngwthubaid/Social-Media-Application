@@ -56,9 +56,8 @@ exports.register = async (req, res) => {
 // For Login
 exports.login = async (req, res) => {
     try {
-        const { email, password } = req.body
-        console.log(`User Details comes from body\nEmail : ${email}\n Password : ${password}`);
-        const user = await User.findOne({ email }).select("+password")
+        const { email, password } = req.body;
+        const user = await User.findOne({ email }).select("+password").populate("posts followers followering")
 
         // Check User's presence
         if (!user)
@@ -326,7 +325,7 @@ exports.deleteProfile = async (req, res) => {
 // Get Profile Details
 exports.getProfile = async (req, res) => {
     try {
-        const user = await User.findById(req.user._id).populate("posts")
+        const user = await User.findById(req.user._id).populate("posts followers followering")
         res.status(200).json({ success: true, user })
     } catch (error) {
         res.status(500).json({ success: false, message: error.message })
@@ -337,7 +336,7 @@ exports.getProfile = async (req, res) => {
 // Get UserProfile Details
 exports.getUserProfile = async (req, res) => {
     try {
-        const user = await User.findById(req.params.id).populate("posts")
+        const user = await User.findById(req.params.id).populate("posts followers followering")
         if (!user) return res.status(400).json({ success: false, message: "User not found" })
         res.status(200).json({ success: true, user })
     } catch (error) {
