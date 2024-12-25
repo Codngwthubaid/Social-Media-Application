@@ -7,7 +7,7 @@ const app = express()
 if (process.env.NODE_ENV !== "production") dotenv.config({ path: "Backend/config/.env" })
 
 // Using Middleware
-app.use(cors())
+app.use(cors({ origin: 'http://localhost:5173', credentials: true, }));
 app.use(express.json())
 app.use(express.urlencoded({ extended: true }))
 app.use(cookieParser())

@@ -42,6 +42,7 @@ const Account = () => {
 
   const logoutHandler = () => {
     dispatch(logoutUser())
+    
   }
   
 
