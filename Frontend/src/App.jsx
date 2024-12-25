@@ -1,4 +1,4 @@
-import React , {useEffect} from 'react'
+import React, { useEffect } from 'react'
 import { useDispatch, useSelector } from 'react-redux'
 import { BrowserRouter as Router, Route, Routes } from 'react-router-dom'
 import Home from './components/Home/Home.jsx'
@@ -22,9 +22,9 @@ const App = () => {
       {isAuthenticate && <Navbar />}
       <Routes>
         <Route path="/" element={isAuthenticate ? <Home /> : <Login />} />
-        <Route path="/create" element={<Create />} />
-        <Route path="/search" element={<Search />} />
-        <Route path="/account" element={<Account />} />
+        <Route path="/create" element={isAuthenticate ? <Create /> : <Login />} />
+        <Route path="/search" element={isAuthenticate ? <Search /> : <Login />} />
+        <Route path="/account" element={isAuthenticate ? <Account /> : <Login />} />
       </Routes>
     </Router>
   )

@@ -25,3 +25,12 @@ export const deleteCommentReducer = createReducer(initialState, (builder) => {
     builder.addCase('clearError', (state) => { state.error = null })
     builder.addCase('clearMessage', (state) => { state.message = null })
 })
+
+export const myPostReducer = createReducer(initialState, (builder) => {
+    builder.addCase('myPostRequest', (state => { state.loading = true }))
+    builder.addCase('myPostSuccess', (state, action) => { state.loading = false; state.message = action.payload; });
+    builder.addCase('myPostFailure', (state, action) => { state.loading = false; state.error = action.payload; });
+    builder.addCase('clearError', (state) => { state.error = null })
+    builder.addCase('clearMessage', (state) => { state.message = null })
+
+})

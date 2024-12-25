@@ -45,3 +45,15 @@ export const getAllUsers = () => async (dispatch) => {
         dispatch({ type: 'allUsersReducerFailure', payload: error.response.data.message })
     }
 };
+
+// 
+export const myPost = () => async (dispatch) => {
+    try {
+        dispatch({ type: 'myPostRequest' })
+        const { data } = await axios.get("/api/v1/my/posts")
+        dispatch({ type: 'myPostSuccess', payload: data.posts })
+    } catch (error) {
+        dispatch({ type: 'myPostFailure', payload: error.response.data.message })
+    }
+};
+

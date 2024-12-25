@@ -262,7 +262,7 @@ exports.updateProfile = async (req, res) => {
         // Finding User
         const user = await User.findById(req.user._id)
         // Getting credetianls
-        const { name, email } = req.body 
+        const { name, email } = req.body
         // Updating credetianls
         if (name) user.name = name
         if (email) user.email = email
@@ -355,7 +355,7 @@ exports.getAllUsers = async (req, res) => {
         res.status(500).json({ success: false, message: error.message })
     }
 }
-               
+
 
 // Forget Password
 exports.forgetPassword = async (req, res) => {
@@ -414,5 +414,24 @@ exports.resetPassword = async (req, res) => {
         return res.status(200).json({ success: false, messsage: "Password Successfully Updated" })
     } catch (error) {
         rs.status(500).json({ success: false, message: error.message })
+    }
+}
+
+
+// Get User Logged in Profile Posts
+exports.getMyPosts = async (req, res) => {
+    try {
+
+        const user = await User.findById(req.user._id)
+        const posts = []
+        for (let i = 0; i < user.posts.length; i++) {
+            const post = await Post.findById(user.posts[i].populate("likes comments.user"))
+            posts.push(post)
+        }
+
+        res.status(200).json({ success: true, posts })
+
+    } catch (error) {
+        res.status(500).json({ success: false, message: error.message })
     }
 }
