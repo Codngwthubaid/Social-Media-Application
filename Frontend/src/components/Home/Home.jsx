@@ -25,17 +25,17 @@ const Home = () => {
   useEffect(() => {
     if (likeError) toast.error(likeError); dispatch({ type: 'clearError' })
     if (message) toast.success(message); dispatch({ type: 'clearMessage' })
-  }, [toast, likeError, message])
+  }, [toast, likeError, message, dispatch])
 
   useEffect(() => {
     if (addCommentError) toast.error(addCommentError); dispatch({ type: 'clearError' })
     if (addCommentMessage) toast.success(addCommentMessage); dispatch({ type: 'clearMessage' })
-  }, [toast, addCommentError, addCommentMessage])
+  }, [toast, addCommentError, addCommentMessage, dispatch])
 
   useEffect(() => {
     if (deleteCommentError) toast.error(deleteCommentError); dispatch({ type: 'clearError' })
     if (deleteCommentMessage) toast.success(deleteCommentMessage); dispatch({ type: 'clearMessage' })
-  }, [toast, deleteCommentError, addCommentMessage])
+  }, [toast, deleteCommentError, addCommentMessage, dispatch])
 
 
   return loading === true || userLoading === true ? <Loader /> :
