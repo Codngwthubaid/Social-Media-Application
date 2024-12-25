@@ -46,7 +46,6 @@ const Post = ({
     const handleComments = async (e) => {
         e.preventDefault()
         if (!postId) console.log("Post ID is not present")
-        console.log(postId, commentValueByUser);
         await dispatch(addCommentOnPost(postId, commentValueByUser))
         setCommentValueByUser("")
         if (isAccount) console.log("This is my profile ...");
@@ -121,7 +120,7 @@ const Post = ({
 
 
                 <Dialog open={commentValueByUserToggle} onClose={() => { setCommentValueByUserToggle(!commentValueByUserToggle) }} >
-                    <DialogTitle className='h-[80vh] sm:w-[30vw] w-[70vw]'>
+                    <DialogTitle className='h-[80vh] sm:w-[50vw] sm:[30vw] w-[70vw]'>
                         <div className='flex items-center justify-between'>
                             <div>Add Comments </div>
                             <button onClick={() => { setCommentValueByUserToggle(!commentValueByUserToggle) }}><IoMdClose /></button>
@@ -140,21 +139,17 @@ const Post = ({
 
                             <button onClick={handleComments} className='bg-blue-500 hover:bg-blue-600  p-2 rounded-lg text-white'>Add</button>
                         </div>
-
-                        {comments.length > 0 ? (comments.map((comment) => {
-                            <div>{<CommentCard
-                                userId={comment.user._id}
-                                name={comment.user.name}
-                                avatar={comment.user.avatar.url}
-                                comment={comment.comment}
-                                commentId={comment._id}
-                                postId={postId}
-                                isAccount={isAccount}
-                            />
-                            }</div>
-                        })) : (console.log("Null")
-                        )}
-
+                        {comments.length > 0 ? (comments.map((comment) =>
+                        (<CommentCard
+                            key={comment._id}
+                            userId={comment.user._id}
+                            name={comment.user.name}
+                            avatar={comment.user.avatar.url}
+                            comment={comment.comment}
+                            commentId={comment._id}
+                            postId={postId}
+                            isAccount={isAccount}
+                        />))) : (<div>No comments yet.</div>)}
                     </DialogTitle>
                 </Dialog>
             </div>
