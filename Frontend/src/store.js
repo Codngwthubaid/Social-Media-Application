@@ -1,6 +1,6 @@
 import { configureStore } from '@reduxjs/toolkit'
-import { allUsersReducer, postOfFollowedUsersReducer, userReducer } from './Reducers/UserReducer';
-import { addCommentReducer, deleteCommentReducer, likeReducer, myPostReducer, newPostReducer } from './Reducers/PostReducer';
+import { allUsersReducer, postOfFollowedUsersReducer, userReducer, myPostReducer } from './Reducers/UserReducer';
+import { addCommentReducer, deleteCommentReducer, likeReducer, newPostReducer } from './Reducers/PostReducer';
 
 const store = configureStore({
     reducer: {
@@ -11,7 +11,7 @@ const store = configureStore({
         addComments: addCommentReducer,
         deleteComments: deleteCommentReducer,
         myPost: myPostReducer,
-        createNewPost : newPostReducer
+        createNewPost: newPostReducer
     }
 })
 

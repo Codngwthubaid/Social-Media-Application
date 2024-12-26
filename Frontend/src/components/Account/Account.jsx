@@ -46,7 +46,7 @@ const Account = () => {
   }
 
   useEffect(() => {
-    dispatch(myPost())
+    dispatch(myPost)
   }, [dispatch])
 
 
@@ -69,7 +69,7 @@ const Account = () => {
               postImg={post.image}
               ownerId={post.owner._id}
               ownerName={post.owner.name}
-              ownerImg={post.owner.avator}
+              ownerImg={post.owner.avatar.url}
               likes={post.likes}
               comments={post.comments}
             />
@@ -114,7 +114,7 @@ const Account = () => {
                     key={follower._id}
                     userId={follower._id}
                     name={follower.name}
-                    avator={follower.avator}
+                    avatar={follower.avatar}
                   />
                 ))) : (<p>You have no followers</p>)
               }
