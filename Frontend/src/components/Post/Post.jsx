@@ -5,7 +5,7 @@ import { AiOutlineLike } from "react-icons/ai";
 import { AiFillLike } from "react-icons/ai";
 import { useDispatch, useSelector } from 'react-redux';
 import { addCommentOnPost, likePost } from '../../Actions/Post';
-import { postOfFollowedUsers } from '../../Actions/User';
+import { myPost, postOfFollowedUsers } from '../../Actions/User';
 import { MdDelete } from "react-icons/md";
 import Dialog from '@mui/material/Dialog';
 import DialogTitle from '@mui/material/DialogTitle';
@@ -39,7 +39,7 @@ const Post = ({
     const handleLikes = async () => {
         setLike(!like)
         await dispatch(likePost(postId))
-        if (isAccount) console.log("Bring my posts ...");
+        if (isAccount)  dispatch(myPost())
         dispatch(postOfFollowedUsers())
     }
 
@@ -48,7 +48,7 @@ const Post = ({
         if (!postId) console.log("Post ID is not present")
         await dispatch(addCommentOnPost(postId, commentValueByUser))
         setCommentValueByUser("")
-        if (isAccount) console.log("This is my profile ...");
+        if (isAccount)  dispatch(myPost())
         dispatch(addCommentOnPost())
 
     }

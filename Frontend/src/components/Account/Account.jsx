@@ -46,7 +46,7 @@ const Account = () => {
   }
 
   useEffect(() => {
-    dispatch(myPost)
+    dispatch(myPost())
   }, [dispatch])
 
 
@@ -72,6 +72,8 @@ const Account = () => {
               ownerImg={post.owner.avatar.url}
               likes={post.likes}
               comments={post.comments}
+              isDelete={true}
+              isAccount={true}
             />
           )) : <p>You don't have any post</p>
         }
