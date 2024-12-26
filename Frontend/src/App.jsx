@@ -12,6 +12,7 @@ import { loadUser } from './Actions/User.js'
 const App = () => {
   const dispatch = useDispatch()
   const { isAuthenticate } = useSelector(state => state.user)
+  
   useEffect(() => {
     dispatch(loadUser())
   }, [])

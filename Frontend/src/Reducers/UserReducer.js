@@ -1,5 +1,5 @@
 import { createReducer } from "@reduxjs/toolkit";
-const initialState = {}
+const initialState = { isAuthenticate: false }
 
 export const userReducer = createReducer(initialState, (builder) => {
     builder.addCase('loginRequest', (state) => { state.loading = true; });

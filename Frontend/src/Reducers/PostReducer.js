@@ -34,3 +34,12 @@ export const myPostReducer = createReducer(initialState, (builder) => {
     builder.addCase('clearMessage', (state) => { state.message = null })
 
 })
+
+export const newPostReducer = createReducer(initialState, (builder) => {
+    builder.addCase('newPostRequest', (state => { state.loading = true }))
+    builder.addCase('newPostSuccess', (state, action) => { state.loading = false; state.message = action.payload; });
+    builder.addCase('newPostFailure', (state, action) => { state.loading = false; state.error = action.payload; });
+    builder.addCase('clearError', (state) => { state.error = null })
+    builder.addCase('clearMessage', (state) => { state.message = null })
+
+})

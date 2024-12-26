@@ -42,12 +42,11 @@ const Account = () => {
 
   const logoutHandler = () => {
     dispatch(logoutUser())
-    
+
   }
-  
 
   useEffect(() => {
-    dispatch(myPost)
+    dispatch(myPost())
   }, [dispatch])
 
 

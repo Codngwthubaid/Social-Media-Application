@@ -12,18 +12,6 @@ export const login = (email, password) => async (dispatch) => {
 }
 
 
-// Load User Function
-export const loadUser = () => async (dispatch) => {
-    try {
-        dispatch({ type: 'loadUserRequest' })
-        const { data } = await axios.get("/api/v1/me", { withCredentials: true })
-        dispatch({ type: 'loadUserSuccess', payload: data.user, isAuthenticate: true })
-    } catch (error) {
-        dispatch({ type: 'loadUserFailure', payload: error.response.data.message, isAuthenticate: false })
-    }
-}
-
-
 // Post Of Followed Users Function
 export const postOfFollowedUsers = () => async (dispatch) => {
     try {
@@ -46,16 +34,7 @@ export const getAllUsers = () => async (dispatch) => {
     }
 };
 
-// Getting My Post Function
-export const myPost = () => async (dispatch) => {
-    try {
-        dispatch({ type: 'myPostRequest' })
-        const { data } = await axios.get("/api/v1/my/posts")
-        dispatch({ type: 'myPostSuccess', payload: data.posts })
-    } catch (error) {
-        dispatch({ type: 'myPostFailure', payload: error.response.data.message })
-    }
-};
+
 
 // Logout Function
 export const logoutUser = () => async (dispatch) => {
@@ -68,3 +47,28 @@ export const logoutUser = () => async (dispatch) => {
     }
 };
 
+
+
+// Getting My Post Function
+export const myPost = () => async (dispatch) => {
+    try {
+        dispatch({ type: 'myPostRequest' })
+        const { data } = await axios.get("/api/v1/my/posts")
+        dispatch({ type: 'myPostSuccess', payload: data.posts })
+    } catch (error) {
+        dispatch({ type: 'myPostFailure', payload: error.response.data.message })
+    }
+};
+
+
+
+// Load User Function
+export const loadUser = () => async (dispatch) => {
+    try {
+        dispatch({ type: 'loadUserRequest' })
+        const { data } = await axios.get("/api/v1/me")
+        dispatch({ type: 'loadUserSuccess', payload: data.user, isAuthenticate: true })
+    } catch (error) {
+        dispatch({ type: 'loadUserFailure', payload: error.response.data.message, isAuthenticate: false })
+    }
+}
