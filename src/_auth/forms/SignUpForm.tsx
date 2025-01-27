@@ -13,15 +13,16 @@ const SignUpForm: React.FC = () => {
     const { register, handleSubmit } = useForm<z.infer<typeof signUpFormSchema>>({
         resolver: zodResolver(signUpFormSchema),
         defaultValues: {
-            name: "",
-            username: "",
-            email: "",
-            password: ""
+            name: " ",
+            username: " ",
+            email: " ",
+            password: " "
         }
     });
 
     async function onSubmit(data: z.infer<typeof signUpFormSchema>) {
         try {    
+            console.log(data);
             const newUser = await createUserAccount(data);
             console.log(newUser);
         } catch (error) {
@@ -58,7 +59,6 @@ const SignUpForm: React.FC = () => {
                                 id="name"
                                 type="text"
                                 required
-                                autoComplete="name"
                                 className="block w-full rounded-md bg-gray-500 px-3 py-1.5 text-base text-white outline-1 -outline-offset-1 outline-gray-500 placeholder:text-gray-400 focus:outline-2 focus:-outline-offset-2 focus:outline-indigo-600 sm:text-sm/6"
                             />
                         </div>
@@ -73,7 +73,6 @@ const SignUpForm: React.FC = () => {
                                 id="username"
                                 type="text"
                                 required
-                                autoComplete="username"
                                 className="block w-full rounded-md bg-gray-500 px-3 py-1.5 text-base text-white outline-1 -outline-offset-1 outline-gray-500 placeholder:text-gray-400 focus:outline-2 focus:-outline-offset-2 focus:outline-indigo-600 sm:text-sm/6"
                             />
                         </div>
@@ -88,7 +87,6 @@ const SignUpForm: React.FC = () => {
                                 id="email"
                                 type="email"
                                 required
-                                autoComplete="email"
                                 className="block w-full rounded-md bg-gray-500 px-3 py-1.5 text-base text-white outline-1 -outline-offset-1 outline-gray-500 placeholder:text-gray-400 focus:outline-2 focus:-outline-offset-2 focus:outline-indigo-600 sm:text-sm/6"
                             />
                         </div>

@@ -13,4 +13,4 @@ client.setEndpoint(appwriteConfig.url as string)
 export const account = new Account(client);
 export const databases = new Databases(client);
 export const storage = new Storage(client);
-export const avators = new Avatars(client); 
+export const avatars = new Avatars(client); 
