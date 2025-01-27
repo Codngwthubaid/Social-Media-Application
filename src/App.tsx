@@ -5,10 +5,13 @@ import SignUpForm from './_auth/forms/SignUpForm'
 import AuthLayout from './_auth/AuthLayout'
 import RootLayout from './_root/RootLayout'
 import { Home } from './_root/pages'
+import { Toaster } from 'react-hot-toast';
+
 
 const App: React.FC = () => {
   return (
     <main>
+
       <BrowserRouter>
         <Routes>
           <Route element={<AuthLayout />}>
@@ -21,7 +24,8 @@ const App: React.FC = () => {
           </Route>
         </Routes>
       </BrowserRouter>
-    
+
+      <Toaster />
     </main>
   )
 }
