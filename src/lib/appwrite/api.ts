@@ -4,14 +4,12 @@ import { ID, Query } from "appwrite";
 
 export async function createUserAccount(user: INewUser) {
     try {
-
         const newAccount = await account.create(
             ID.unique(),
             user.email,
             user.password,
             user.name
         )
-        console.log(newAccount);
 
         if (!newAccount) throw Error
 
@@ -33,7 +31,6 @@ export async function createUserAccount(user: INewUser) {
 
     }
 }
-
 
 export async function saveUserToDB(user: {
     accountId: string;
@@ -61,6 +58,8 @@ export async function signInAccount(user: {
     password: string;
 }) {
     try {
+        await account.deleteSession('current');
+
         const session = await account.createEmailPasswordSession(
             user.email,
             user.password
@@ -73,21 +72,9 @@ export async function signInAccount(user: {
     }
 }
 
-
-
-export async function getAccount() {
-    try {
-        const currentAccount = await account.get()
-        return currentAccount;
-    } catch (error) {
-        console.log(error);
-    }
-}
-
-
 export async function getCurrentUser() {
     try {
-        const currentAccount = await getAccount()
+        const currentAccount = await account.get()
         if (!currentAccount) throw Error
 
         const currentUser = await databases.listDocuments(
@@ -103,3 +90,11 @@ export async function getCurrentUser() {
     }
 }
 
+export async function signOutAccount() {
+    try {
+        const session = await account.deleteSession("current");
+        return session;
+    } catch (error) {
+        console.log(error);
+    }
+}

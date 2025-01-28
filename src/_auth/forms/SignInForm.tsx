@@ -25,16 +25,17 @@ const SignInForm: React.FC = () => {
   const { checkAuthUser, isLoading: isUserLoading } = useUserContext();
 
   async function onSubmit(data: z.infer<typeof signInFormSchema>) {
+
     const session = await signInAccount({ email: data.email, password: data.password });
     if (!session) return toast.error("Sign in fail. Please try again.")
 
-
     const isLoaggedIn = await checkAuthUser();
+
     if (isLoaggedIn) {
       reset();
       navigate("/");
+      return toast.success("Successfully Sign In")
     }
-    toast.error("Sign in fail. Please try again.")
   }
 
 

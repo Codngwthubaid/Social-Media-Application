@@ -16,8 +16,8 @@ const INITIAL_STATE = {
     user: INITIAL_USER,
     isLoading: false,
     isAuthenticated: false,
-    setUser: () => { },
-    setIsAuthenticated: () => { },
+    setUser: () => {},
+    setIsAuthenticated: () => {},
     checkAuthUser: async () => false as boolean
 }
 
@@ -30,25 +30,23 @@ const AuthProvider = ({ children }: { children: React.ReactNode }) => {
     const [isAuthenticated, setIsAuthenticated] = useState(false)
 
     const checkAuthUser = async () => {
+        setIsLoading(true);
         try {
             const currentAccount = await getCurrentUser();
             if (currentAccount) {
-                setUser(
-                    {
-                        id: currentAccount.$id,
-                        name: currentAccount.name,
-                        username: currentAccount.username,
-                        email: currentAccount.email,
-                        imageUrl: currentAccount.imageUrl,
-                        bio: currentAccount.bio
-                    }
-                )
-                setIsAuthenticated(true);
-                return true;
-            }
-
-            return false;
-
+                setUser({
+                    id: currentAccount.$id,
+                    name: currentAccount.name,
+                    username: currentAccount.username,
+                    email: currentAccount.email,
+                    imageUrl: currentAccount.imageUrl,
+                    bio: currentAccount.bio
+                })
+                setIsAuthenticated(true); 
+            return true;
+        }
+        setIsAuthenticated(false); 
+        return false;
 
         } catch (error) {
             console.log(error);
@@ -58,9 +56,24 @@ const AuthProvider = ({ children }: { children: React.ReactNode }) => {
         }
     };
 
+    // useEffect(() => {
+    //     if (localStorage.getItem("cookieFallBack") === "[]" || localStorage.getItem("cookieFallBack") === null) {
+    //         navigate("/sign-in");
+    //     }
+    //     else {
+    //         checkAuthUser();
+    //     }
+    // }, [])
+
     useEffect(() => {
-        if (localStorage.getItem("cookieFallBack") === "[]" || localStorage.getItem("cookieFallBack") === null) navigate("/sign-in"); checkAuthUser();
-    }, [])
+        const checkSession = async () => {
+            const isAuthenticated = await checkAuthUser();
+            if (!isAuthenticated) {
+                navigate("/sign-in");
+            }
+        };
+        checkSession();
+    }, []);
 
     const value = {
         user,

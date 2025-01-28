@@ -6,7 +6,7 @@ import { signUpFormSchema } from '@/lib/validation';
 import Loader from '@/components/shared/Loader';
 import { Link, useNavigate } from 'react-router-dom';
 import toast from 'react-hot-toast';
-import { useCreateuserAccount, useSignInAccount, } from '@/lib/react-query/queriesAndMutations';
+import { useCreateUserAccount, useSignInAccount } from '@/lib/react-query/queriesAndMutations';
 import { useUserContext } from '@/context/AuthContext';
 
 
@@ -23,30 +23,29 @@ const SignUpForm: React.FC = () => {
     });
 
     const navigate = useNavigate();
-    const { mutateAsync: createUserAccount, isPending: isCreatingUser } = useCreateuserAccount();
-    const { mutateAsync: signInAccount } = useSignInAccount();
-    const { checkAuthUser } = useUserContext();
+    const { mutateAsync: createUserAccount, isPending: isCreatingAccount } = useCreateUserAccount();
+    const { mutateAsync: signInAccount, isPending: isSigningIn } = useSignInAccount();
+    const { checkAuthUser, isLoading: isUserLoading } = useUserContext();
 
     async function onSubmit(data: z.infer<typeof signUpFormSchema>) {
         try {
             const newUser = await createUserAccount(data);
-            if (!newUser) {
-                toast.error('Failed to create user account.');
-                return;
-            }
-            toast.success('User account created successfully!');
+            if (!newUser) return toast.error('Failed to create user account.');
+
 
             const session = await signInAccount({ email: data.email, password: data.password });
-            if (!session) return toast.error("Sign in fail. Please try again.")
-    
-    
+            if (!session) {
+                return toast.error("Sign in fail. Please try again.")
+            }
+            
             const isLoaggedIn = await checkAuthUser();
             if (isLoaggedIn) {
                 reset();
-                navigate("/");
+                navigate('/');
+                return toast.success("Successfully Sign In")
             }
-            else{
-                toast.error("Sign in fail. Please try again.")
+            else {
+                return toast.error("Sign in fail. Please try again.")
             }
 
         } catch (error) {
@@ -54,7 +53,7 @@ const SignUpForm: React.FC = () => {
             toast.error('An error occurred while creating the user account.');
         }
 
-       
+
     }
 
 
@@ -143,7 +142,7 @@ const SignUpForm: React.FC = () => {
                             type="submit"
                             className="flex cursor-pointer w-full justify-center rounded-md bg-indigo-600 px-3 py-1.5 text-balance font-semibold text-white shadow-xs hover:bg-indigo-500 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-600"
                         >
-                            {isCreatingUser ? (
+                            {isCreatingAccount ? (
                                 <div className='flex items-center gap-x-2'>
                                     <Loader /> loading...
                                 </div>
