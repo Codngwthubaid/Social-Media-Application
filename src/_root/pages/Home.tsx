@@ -1,10 +1,13 @@
 import React from 'react'
 
-const Home:React.FC = () => {
+const Home: React.FC = () => {
   return (
-    <div>
-      Home
-    </div>
+    <section>
+
+      <div className='sm:ml-[30vw] lg:ml-[25vw]'>
+        Home
+      </div>
+    </section>
   )
 }
 

@@ -1,7 +1,6 @@
 import { useUserContext } from '@/context/AuthContext';
 import { useSignOutAccount } from '@/lib/react-query/queriesAndMutations';
 import React, { useEffect } from 'react'
-import { IoLogOut } from "react-icons/io5";
 import { Link, useNavigate } from 'react-router-dom'
 
 const Topbar: React.FC = () => {
@@ -18,21 +17,42 @@ const Topbar: React.FC = () => {
 
     return (
         <section>
-            <div className='flex justify-between p-2'>
+            <div className='sm:hidden flex justify-between p-2'>
                 <Link to="/" className='flex gap-3 items-center'>
-                    <svg xmlns="http://www.w3.org/2000/svg" className="mx-auto h-8 w-auto" x="0px" y="0px" width="24" height="24" viewBox="0,0,256,256">
-                        <g fill="#4f39f6" fillRule="nonzero" stroke="none" strokeWidth="1" strokeLinecap="butt" strokeLinejoin="miter" strokeMiterlimit="10" strokeDasharray="" strokeDashoffset="0" fontFamily="none" fontWeight="none" fontSize="none" textAnchor="none" >
-                            <g transform="scale(10.66667,10.66667)">
-                                <path d="M19,3c-1.654,0 -3,1.346 -3,3c0,0.46176 0.11355,0.89399 0.30078,1.28516l-3.71484,3.71484h-4.76953c-0.41427,-1.16125 -1.5148,-2 -2.81641,-2c-1.654,0 -3,1.346 -3,3c0,1.654 1.346,3 3,3c1.30161,0 2.40214,-0.83875 2.81641,-2h4.76953l3.71484,3.71484c-0.18723,0.39116 -0.30078,0.8234 -0.30078,1.28516c0,1.654 1.346,3 3,3c1.654,0 3,-1.346 3,-3c0,-1.654 -1.346,-3 -3,-3c-0.46176,0 -0.89399,0.11355 -1.28516,0.30078l-3.30078,-3.30078l3.30078,-3.30078c0.39116,0.18723 0.8234,0.30078 1.28516,0.30078c1.654,0 3,-1.346 3,-3c0,-1.654 -1.346,-3 -3,-3z"></path>
-                            </g>
-                        </g>
+                    <svg xmlns="http://www.w3.org/2000/svg" width="40" height="40" className='border-2 rounded-2xl border-[#877EFF] animate-border-glow shadow-glow ' viewBox="0 0 300 300">
+
+                        <defs>
+                            <linearGradient id="gradient" x1="0%" y1="0%" x2="100%" y2="100%">
+                                <stop offset="0%" />
+                                <stop offset="100%" />
+                            </linearGradient>
+                        </defs>
+
+                        <circle cx="150" cy="150" r="140" fill="url(#gradient)" />
+
+                        <ellipse cx="100" cy="100" rx="30" ry="40" fill="#FFF" />
+                        <ellipse cx="200" cy="100" rx="30" ry="40" fill="#FFF" />
+                        <circle cx="100" cy="100" r="15" fill="#000" />
+                        <circle cx="200" cy="100" r="15" fill="#000" />
+
+                        <path d="M70,70 Q90,50 110,70" stroke="#000" strokeWidth="8" fill="transparent" strokeLinecap="round" />
+                        <path d="M190,70 Q210,50 230,70" stroke="#000" strokeWidth="8" fill="transparent" strokeLinecap="round" />
+
+                        <path d="M80,180 Q150,250 220,180" stroke="#000" strokeWidth="10" fill="transparent" strokeLinecap="round" />
+                        <rect x="100" y="180" width="20" height="20" fill="#FFF" />
+                        <rect x="130" y="180" width="20" height="20" fill="#FFF" />
+                        <rect x="160" y="180" width="20" height="20" fill="#FFF" />
+                        <rect x="190" y="180" width="20" height="20" fill="#FFF" />
                     </svg>
-                    <h2 className='font-bold text-2xl font-serif'>NUSM</h2>
+                    <h2 className="font-bold text-4xl bg-gradient-to-r from-white to-[#877EFF] bg-clip-text text-transparent animate-gradient bg-300% bg-left font-mono">NUSM</h2>
                 </Link>
 
                 <div className='flex items-center justify-center gap-x-1'>
                     <button onClick={() => { signOut }} className='cursor-pointer'>
-                        <IoLogOut className='hover:text-white text-indigo-500 drop-shadow-2xl text-4xl' />
+                        <img
+                            src="/assets/icons/logout.svg"
+                            alt="logout"
+                        />
                     </button>
                     <Link to={`/profile/${user.id}`}>
                         <img
