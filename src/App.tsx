@@ -1,5 +1,5 @@
 import React from 'react'
-import { BrowserRouter, Route, Routes } from 'react-router-dom'
+import { Route, Routes } from 'react-router-dom'
 import SignInForm from './_auth/forms/SignInForm'
 import SignUpForm from './_auth/forms/SignUpForm'
 import AuthLayout from './_auth/AuthLayout'
@@ -11,8 +11,6 @@ import { Toaster } from 'react-hot-toast';
 const App: React.FC = () => {
   return (
     <main>
-
-      <BrowserRouter>
         <Routes>
           <Route element={<AuthLayout />}>
             <Route path="/sign-in" element={<SignInForm />} />
@@ -23,7 +21,6 @@ const App: React.FC = () => {
             <Route index element={<Home />} />
           </Route>
         </Routes>
-      </BrowserRouter>
 
       <Toaster />
     </main>

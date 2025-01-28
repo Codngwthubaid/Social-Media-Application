@@ -23,9 +23,9 @@ const SignUpForm: React.FC = () => {
     });
 
     const navigate = useNavigate();
-    const { mutateAsync: createUserAccount, isLoading: isCreatingUser } = useCreateuserAccount();
-    const { mutateAsync: signInAccount, isLoading: isSigningIn } = useSignInAccount();
-    const { checkAuthUser, isLoading: isUserLoading } = useUserContext();
+    const { mutateAsync: createUserAccount, isPending: isCreatingUser } = useCreateuserAccount();
+    const { mutateAsync: signInAccount } = useSignInAccount();
+    const { checkAuthUser } = useUserContext();
 
     async function onSubmit(data: z.infer<typeof signUpFormSchema>) {
         try {
@@ -35,18 +35,26 @@ const SignUpForm: React.FC = () => {
                 return;
             }
             toast.success('User account created successfully!');
+
+            const session = await signInAccount({ email: data.email, password: data.password });
+            if (!session) return toast.error("Sign in fail. Please try again.")
+    
+    
+            const isLoaggedIn = await checkAuthUser();
+            if (isLoaggedIn) {
+                reset();
+                navigate("/");
+            }
+            else{
+                toast.error("Sign in fail. Please try again.")
+            }
+
         } catch (error) {
             console.log("Error creating user: ", error);
             toast.error('An error occurred while creating the user account.');
         }
 
-        const session = await signInAccount({ email: data.email, password: data.password });
-        if (!session) return toast.error("Sign in fail. Please try again.")
-
-
-        const isLoaggedIn = await checkAuthUser();
-        if (isLoaggedIn) reset(); navigate("/");
-        toast.error("Sign in fail. Please try again.")
+       
     }
 
 
@@ -125,7 +133,6 @@ const SignUpForm: React.FC = () => {
                                 id="password"
                                 type="password"
                                 required
-                                autoComplete="current-password"
                                 className="block w-full rounded-md bg-gray-500 px-3 py-1.5 text-base text-white outline-1 -outline-offset-1 outline-gray-500 placeholder:text-gray-400 focus:outline-2 focus:-outline-offset-2 focus:outline-indigo-600 sm:text-sm/6"
                             />
                         </div>
