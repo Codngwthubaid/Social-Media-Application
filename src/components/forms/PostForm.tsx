@@ -1,49 +1,65 @@
-import React from 'react';
+import React, { useState } from 'react';
 import * as z from "zod";
 import { zodResolver } from '@hookform/resolvers/zod';
 import { useForm } from 'react-hook-form';
 import FileUploader from '../shared/FileUploader';
+import { Models } from 'appwrite';
+import { postFormSchema } from '@/lib/validation';
+import { useCreatePost } from '@/lib/react-query/queriesAndMutations';
+import { useUserContext } from '@/context/AuthContext';
+
+type PostFormProps = {
+    posts: Models.Document
+}
 
 
+const PostForm: React.FC<PostFormProps> = ({ posts }: PostFormProps) => {
 
-const formSchema = z.object({
-    username: z.string().min(2, { message: "Username must be at least 2 characters" })
-})
+    const {user} = useUserContext();
+    const [field, setField] = useState("")
+    const { mutateAsync: createPost, isPending: isLoadingCreating } = useCreatePost()
 
-const PostForm: React.FC = () => {
-
-    const { register, handleSubmit } = useForm<z.infer<typeof formSchema>>({
-        resolver: zodResolver(formSchema),
+    const { register, handleSubmit } = useForm<z.infer<typeof postFormSchema>>({
+        resolver: zodResolver(postFormSchema),
         defaultValues: {
-            username: ""
+            caption: posts ? posts?.caption : "",
+            file: [],
+            location: posts ? posts?.location : "",
+            tags: posts ? posts?.tags.join(",") : ""
         }
     });
 
-    function onSubmit(data: z.infer<typeof formSchema>) {
-
+    async function onSubmit(data: z.infer<typeof postFormSchema>) {
+        const newPost = await createPost({
+            ...data,
+            userId: user.id
+        })
     }
 
 
     return (
-        <form className="m-4" onSubmit={handleSubmit(onSubmit)}>
-            <div className='flex flex-col gap-y-4'>
+        <form className="m-4  flex flex-col gap-y-5" onSubmit={handleSubmit(onSubmit)}>
+            <div className='flex flex-col gap-y-2'>
                 <label className="block text-lg font-medium text-white">
                     Caption
                 </label>
                 <textarea
                     {...register}
                     required
-                    rows={5}
+                    rows={2}
                     className="block w-full rounded-md bg-gray-800 px-3 py-1.5 text-base text-white outline-1 -outline-offset-1 outline-gray-500 placeholder:text-gray-400 focus:outline-2 focus:-outline-offset-2 focus:outline-indigo-600 sm:text-sm/6"
                 />
             </div>
-            <div className='flex flex-col gap-y-4'>
+            <div className='flex flex-col gap-y-2 '>
                 <label className="block text-lg font-medium text-white">
                     Add Photos
                 </label>
-                <FileUploader />
+                <FileUploader
+                    fieldChange={(files: File[]) => setField(files.map(file => file.name).join(", "))}
+                    mediaUrl={posts?.imageUrl}
+                />
             </div>
-            <div className='flex flex-col gap-y-4'>
+            <div className='flex flex-col gap-y-2 '>
                 <label className="block text-lg font-medium text-white">
                     Add Location
                 </label>
@@ -53,7 +69,7 @@ const PostForm: React.FC = () => {
                     className="block w-full rounded-md bg-gray-800 px-3 py-1.5 text-base text-white outline-1 -outline-offset-1 outline-gray-500 placeholder:text-gray-400 focus:outline-2 focus:-outline-offset-2 focus:outline-indigo-600 sm:text-sm/6"
                 />
             </div>
-            <div className='flex flex-col gap-y-4'>
+            <div className='flex flex-col gap-y-2 '>
                 <label className="block text-lg font-medium text-white">
                     Add Tags (separate by comma " , ")
                 </label>
