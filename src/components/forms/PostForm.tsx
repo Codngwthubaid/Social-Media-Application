@@ -33,23 +33,27 @@ const PostForm: React.FC<PostFormProps> = ({ posts, action }: PostFormProps) => 
     });
 
     const handleFileUpload = (files: File[]) => {
-        setValue("file", files); // Update form value with files array
+        setValue("file", files);
     };
 
     async function onSubmit(data: z.infer<typeof postFormSchema>) {
+        try {
+            console.log(data);
+            const newPost = await createPost({
+                ...data,
+                userId: user.id
+            });
+            console.log(newPost);
 
-        console.log(data);
-        const newPost = await createPost({
-            ...data,
-            userId: user.id
-        })
-        console.log(newPost);
-
-        if (!newPost) {
-            toast.error('Please try again');
-        } else {
-            toast.success('Post created successfully');
-            navigate('/');
+            if (!newPost) {
+                toast.error('Please try again');
+            } else {
+                toast.success('Post created successfully');
+                navigate('/');
+            }
+        } catch (error) {
+            console.error('Error creating post:', error);
+            toast.error('An error occurred while creating the post.');
         }
     }
 

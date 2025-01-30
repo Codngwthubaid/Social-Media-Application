@@ -36,7 +36,7 @@ export async function saveUserToDB(user: {
     accountId: string;
     email: string;
     name: string;
-    imageUrl: string;
+    imageUrl: String;
     username?: string;
 }) {
     try {
@@ -124,12 +124,10 @@ export async function createPost(post: INewPost) {
                 tags: tags
             }
         )
-
         if (!newPost) {
             await deleteFile(uploadedFile.$id)
             throw Error
         }
-        
         return newPost;
 
     } catch (error) {
@@ -162,6 +160,7 @@ export async function getFilePreview(fileId: string) {
             "top" as ImageGravity,
             100
         )
+        console.log(fileUrl);
         return fileUrl
     } catch (error) {
         console.log(error);
